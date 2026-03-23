@@ -391,17 +391,16 @@ function loadSpotify(){
   let url = document.getElementById('spotifyUrl').value.trim();
   if(!url) return;
 
-  // Extraer tipo e ID de la URL de Spotify
-  // Soporta: artist, album, track, playlist
-  const match = url.match(/spotify\.com\/(artist|album|track|playlist)\/([a-zA-Z0-9]+)/);
+  // Soporta URLs con o sin /intl-xx/ (ej: /intl-es/, /intl-pt/, etc.)
+  const match = url.match(/spotify\.com(?:\/intl-[a-z]+)?\/(artist|album|track|playlist)\/([a-zA-Z0-9]+)/);
   
   if(!match){
     alert('URL de Spotify no válida. Usa un enlace de artista, álbum, track o playlist.');
     return;
   }
 
-  const type = match[1];  // artist | album | track | playlist
-  const id   = match[2];  // ID alfanumérico
+  const type = match[1];
+  const id   = match[2];
 
   const embedUrl = `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0`;
 
