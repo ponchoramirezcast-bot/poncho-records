@@ -301,7 +301,7 @@
     <a href="https://instagram.com" target="_blank" class="contact-link" style="--hover-color:#E1306C">
       <svg viewBox="0 0 24 24" width="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>Instagram
     </a>
-    <a href="/cdn-cgi/l/email-protection#fd8d92939e9592bd8f989e928f998ed39e9290" class="contact-link" style="--hover-color:#00f5ff">
+    <a href="mailto:info@poncho.com" class="contact-link" style="--hover-color:#00f5ff">
       <svg viewBox="0 0 24 24" width="16" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>Email
     </a>
   </div>
@@ -312,12 +312,10 @@
   <div class="footer-copy">© 2025 Poncho Records · Powered by <span>AI</span> · All rights reserved</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ══════════════════════════════════════════
-// CONFIGURACIÓN SUPABASE — Pon tus credenciales aquí
+// CONFIGURACIÓN SUPABASE
 // ══════════════════════════════════════════
-// Project URL: Settings > Data API > Project URL
-// API Key: Settings > API Keys > Legacy anon
 const SUPABASE_URL = 'https://xxtooltbnluhqabexqdo.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4dG9vbHRibmx1aHFhYmV4cWRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMTAxODIsImV4cCI6MjA4OTc4NjE4Mn0.xQtOMe9_FJj8atIy9gfsXEe8W2_T3qZmur0UbKJZUIc';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -325,77 +323,178 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // ── CURSOR ──
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
-function animCursor(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animCursor)}
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  rx += (mx - rx) * .12;
+  ry += (my - ry) * .12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
 animCursor();
-document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,.release-card,.genre-pill')){cursor.style.transform='translate(-50%,-50%) scale(2)';ring.style.width='60px';ring.style.height='60px'}else{cursor.style.transform='translate(-50%,-50%) scale(1)';ring.style.width='36px';ring.style.height='36px'}});
+document.addEventListener('mouseover', e => {
+  if (e.target.closest('a,button,.release-card,.genre-pill')) {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+    ring.style.width = '60px';
+    ring.style.height = '60px';
+  } else {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.width = '36px';
+    ring.style.height = '36px';
+  }
+});
 
 // ── WAVEFORM ──
-const wf=document.getElementById('waveform');
-for(let i=0;i<60;i++){const b=document.createElement('div');b.className='wave-bar';const minH=Math.random()*6+4,maxH=Math.random()*40+20,dur=(Math.random()*1.5+0.6).toFixed(2)+'s',delay=(Math.random()*2).toFixed(2)+'s';const cols=['var(--neon-cyan)','var(--neon-purple)','var(--neon-pink)'];b.style.cssText=`--min-h:${minH}px;--max-h:${maxH}px;--dur:${dur};--delay:${delay};background:${cols[Math.floor(i/20)]};height:${minH}px`;wf.appendChild(b)}
+const wf = document.getElementById('waveform');
+for (let i = 0; i < 60; i++) {
+  const b = document.createElement('div');
+  b.className = 'wave-bar';
+  const minH = Math.random() * 6 + 4;
+  const maxH = Math.random() * 40 + 20;
+  const dur = (Math.random() * 1.5 + 0.6).toFixed(2) + 's';
+  const delay = (Math.random() * 2).toFixed(2) + 's';
+  const cols = ['var(--neon-cyan)', 'var(--neon-purple)', 'var(--neon-pink)'];
+  b.style.cssText = `--min-h:${minH}px;--max-h:${maxH}px;--dur:${dur};--delay:${delay};background:${cols[Math.floor(i / 20)]};height:${minH}px`;
+  wf.appendChild(b);
+}
 
 // ── RELEASES desde Supabase ──
-async function loadReleases(){
-  const grid=document.getElementById('releasesGrid');
-  try{
-    const {data,error}=await sb.from('releases').select('*').order('id',{ascending:false});
-    if(error) throw error;
-    if(!data||data.length===0){grid.innerHTML='<div class="releases-loading">No hay lanzamientos aún.</div>';return}
-    grid.innerHTML='';
-    data.forEach(r=>{
-      const imgUrl = r.cover_url || r.image || '';
-      const card=document.createElement('div');
-      card.className='release-card';
-      card.innerHTML=`
+async function loadReleases() {
+  const grid = document.getElementById('releasesGrid');
+  try {
+    const { data, error } = await sb.from('releases').select('*').order('id', { ascending: false });
+    if (error) throw error;
+    if (!data || data.length === 0) {
+      grid.innerHTML = '<div class="releases-loading">No hay lanzamientos aún.</div>';
+      return;
+    }
+    grid.innerHTML = '';
+    data.forEach(r => {
+      const imgUrl = r.cover_url || '';
+      const card = document.createElement('div');
+      card.className = 'release-card';
+      card.innerHTML = `
         <div class="release-cover">
-          ${imgUrl?`<img class="cover-img" src="${imgUrl}" alt="${r.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="cover-placeholder" style="background:${r.bg_gradient||'linear-gradient(135deg,#0a0a0a,#1a1a2a)'}; display:none"><span style="font-size:4rem">${r.emoji||'🎵'}</span></div>`
-          :`<div class="cover-placeholder" style="background:${r.bg_gradient||'linear-gradient(135deg,#0a0a0a,#1a1a2a)'}"><span style="font-size:4rem">${r.emoji||'🎵'}</span></div>`}
+          ${imgUrl
+            ? `<img class="cover-img" src="${imgUrl}" alt="${r.title}"
+                onerror="this.style.display='none';this.parentElement.querySelector('.cover-placeholder').style.display='flex'">
+               <div class="cover-placeholder" style="background:${r.bg_gradient || 'linear-gradient(135deg,#0a0a0a,#1a1a2a)'};display:none">
+                 <span>${r.emoji || '🎵'}</span>
+               </div>`
+            : `<div class="cover-placeholder" style="background:${r.bg_gradient || 'linear-gradient(135deg,#0a0a0a,#1a1a2a)'}">
+                 <span>${r.emoji || '🎵'}</span>
+               </div>`
+          }
           <div class="cover-overlay"></div>
           <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
         <div class="release-info">
           <div class="release-title">${r.title}</div>
-          <div class="release-genre" style="color:${r.accent_color||'#00f5ff'}">${r.genre||''}</div>
-          ${r.description?`<p class="release-desc">${r.description}</p>`:''}
+          <div class="release-genre" style="color:${r.accent_color || '#00f5ff'}">${r.genre || ''}</div>
+          ${r.description ? `<p class="release-desc">${r.description}</p>` : ''}
           <div class="release-meta">
-            <span class="release-year">${r.year||''}</span>
-            ${r.spotify_url?`<a href="${r.spotify_url}" target="_blank" class="spotify-mini">
-              <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>Escuchar</a>`:''}
+            <span class="release-year">${r.year || ''}</span>
+            ${r.spotify_url
+              ? `<a href="${r.spotify_url}" target="_blank" class="spotify-mini">
+                   <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                   Escuchar
+                 </a>`
+              : ''
+            }
           </div>
         </div>`;
       grid.appendChild(card);
     });
-    document.querySelectorAll('.release-card').forEach((el,i)=>{el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity .5s ease,transform .5s ease';setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)'},i*80)});
-  }catch(e){grid.innerHTML=`<div class="releases-loading" style="color:var(--neon-pink)">Error cargando lanzamientos.</div>`}
+
+    // Animación de entrada
+    document.querySelectorAll('.release-card').forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity .5s ease,transform .5s ease';
+      setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, i * 80);
+    });
+
+  } catch (e) {
+    console.error('Error cargando releases:', e);
+    grid.innerHTML = `<div class="releases-loading" style="color:var(--neon-pink)">Error cargando lanzamientos.</div>`;
+  }
 }
+
+// Carga inicial
 loadReleases();
 
+// Auto-refresh cada 30 segundos (suficiente, sin saturar Supabase)
+setInterval(loadReleases, 30000);
+
 // ── GENRES ──
-const genres=[
-  {name:"Heavy Metal",tag:"Devastador",icon:"💀",color:"#ff006e"},
-  {name:"Folk Metal",tag:"Épico",icon:"⚔️",color:"#39ff14"},
-  {name:"Dark Ambient",tag:"Etéreo",icon:"🌑",color:"#00f5ff"},
-  {name:"Cumbia",tag:"Festivo",icon:"🎺",color:"#ff9900"},
-  {name:"Regional Mx",tag:"Auténtico",icon:"🤠",color:"#bf00ff"},
-  {name:"Industrial",tag:"Mecánico",icon:"⚙️",color:"#ffffff"},
-  {name:"Classic Rock",tag:"Clásico",icon:"🎸",color:"#ffcc00"},
-  {name:"AI Experimental",tag:"Futurista",icon:"🤖",color:"#00f5ff"},
+const genres = [
+  { name: "Heavy Metal",      tag: "Devastador",  icon: "💀", color: "#ff006e" },
+  { name: "Folk Metal",       tag: "Épico",        icon: "⚔️", color: "#39ff14" },
+  { name: "Dark Ambient",     tag: "Etéreo",       icon: "🌑", color: "#00f5ff" },
+  { name: "Cumbia",           tag: "Festivo",      icon: "🎺", color: "#ff9900" },
+  { name: "Regional Mx",      tag: "Auténtico",    icon: "🤠", color: "#bf00ff" },
+  { name: "Industrial",       tag: "Mecánico",     icon: "⚙️", color: "#ffffff" },
+  { name: "Classic Rock",     tag: "Clásico",      icon: "🎸", color: "#ffcc00" },
+  { name: "AI Experimental",  tag: "Futurista",    icon: "🤖", color: "#00f5ff" },
 ];
-const gg=document.getElementById('genresGrid');
-genres.forEach(g=>{gg.innerHTML+=`<div class="genre-pill" style="--color:${g.color}"><div class="genre-icon">${g.icon}</div><div class="genre-name">${g.name}</div><span class="genre-tag">${g.tag}</span></div>`});
-setInterval(loadReleases, 5000);
+const gg = document.getElementById('genresGrid');
+genres.forEach(g => {
+  gg.innerHTML += `<div class="genre-pill" style="--color:${g.color}">
+    <div class="genre-icon">${g.icon}</div>
+    <div class="genre-name">${g.name}</div>
+    <span class="genre-tag">${g.tag}</span>
+  </div>`;
+});
+
 // ── SPOTIFY EMBED ──
-function loadSpotify(){
-  let url=document.getElementById('spotifyUrl').value.trim();
-  if(!url)return;
-  url=url.replace('open.spotify.com/','open.spotify.com/embed/');
-  const frame=document.getElementById('spotify-embed-frame');
-  frame.src=url; frame.style.display='block';
-  document.getElementById('spotifyPlaceholder').style.display='none';
+function loadSpotify() {
+  let url = document.getElementById('spotifyUrl').value.trim();
+  if (!url) return;
+  url = url.replace('open.spotify.com/', 'open.spotify.com/embed/');
+  const frame = document.getElementById('spotify-embed-frame');
+  frame.src = url;
+  frame.style.display = 'block';
+  document.getElementById('spotifyPlaceholder').style.display = 'none';
 }
 
 // ── COUNTERS ──
-function animateCounters(){document.querySelectorAll('.counter').forEach(el=>{const target=parseInt(el.dataset.target),start=parseInt(el.textContent),steps=60,inc=(target-start)/steps;let cur=start,s=0;const t=setInterval(()=>{s++;cur+=inc;el.textContent=Math.round(cur);if(s>=steps){el.textContent=target;clearInterval(t)}},2000/steps)})}
-new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){animateCounters();e.target._obs.disconnect()}})},{threshold:.5}).obse
+function animateCounters() {
+  document.querySelectorAll('.counter').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const start = parseInt(el.textContent);
+    const steps = 60;
+    const inc = (target - start) / steps;
+    let cur = start, s = 0;
+    const t = setInterval(() => {
+      s++;
+      cur += inc;
+      el.textContent = Math.round(cur);
+      if (s >= steps) { el.textContent = target; clearInterval(t); }
+    }, 2000 / steps);
+  });
+}
+
+// ── INTERSECTION OBSERVER para counters (CORREGIDO) ──
+const aboutSection = document.querySelector('#about');
+if (aboutSection) {
+  let countersDone = false;
+  const counterObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !countersDone) {
+        countersDone = true;
+        animateCounters();
+        counterObs.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+  counterObs.observe(aboutSection);
+}
+</script>
+</body>
+</html>
