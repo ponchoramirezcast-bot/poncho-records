@@ -388,12 +388,27 @@ genres.forEach(g=>{gg.innerHTML+=`<div class="genre-pill" style="--color:${g.col
 
 // ── SPOTIFY EMBED ──
 function loadSpotify(){
-  let url=document.getElementById('spotifyUrl').value.trim();
-  if(!url)return;
-  url=url.replace('open.spotify.com/','open.spotify.com/embed/');
-  const frame=document.getElementById('spotify-embed-frame');
-  frame.src=url; frame.style.display='block';
-  document.getElementById('spotifyPlaceholder').style.display='none';
+  let url = document.getElementById('spotifyUrl').value.trim();
+  if(!url) return;
+
+  // Extraer tipo e ID de la URL de Spotify
+  // Soporta: artist, album, track, playlist
+  const match = url.match(/spotify\.com\/(artist|album|track|playlist)\/([a-zA-Z0-9]+)/);
+  
+  if(!match){
+    alert('URL de Spotify no válida. Usa un enlace de artista, álbum, track o playlist.');
+    return;
+  }
+
+  const type = match[1];  // artist | album | track | playlist
+  const id   = match[2];  // ID alfanumérico
+
+  const embedUrl = `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0`;
+
+  const frame = document.getElementById('spotify-embed-frame');
+  frame.src = embedUrl;
+  frame.style.display = 'block';
+  document.getElementById('spotifyPlaceholder').style.display = 'none';
 }
 
 // ── COUNTERS ──
