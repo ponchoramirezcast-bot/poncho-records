@@ -339,7 +339,7 @@ for(let i=0;i<60;i++){const b=document.createElement('div');b.className='wave-ba
 async function loadReleases(){
   const grid=document.getElementById('releasesGrid');
   try{
-    const {data,error}=await sb.from('releases').select('*').order('created_at',{ascending:false});
+    const {data,error}=await sb.from('releases').select('*').order('id',{ascending:false});
     if(error) throw error;
     if(!data||data.length===0){grid.innerHTML='<div class="releases-loading">No hay lanzamientos aún.</div>';return}
     grid.innerHTML='';
