@@ -344,7 +344,7 @@ async function loadReleases(){
     if(!data||data.length===0){grid.innerHTML='<div class="releases-loading">No hay lanzamientos aún.</div>';return}
     grid.innerHTML='';
     data.forEach(r=>{
-      const imgUrl=r.cover_url||'';
+      const imgUrl = r.cover_url || r.image || '';
       const card=document.createElement('div');
       card.className='release-card';
       card.innerHTML=`
