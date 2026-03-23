@@ -356,7 +356,7 @@ sb.auth.getSession().then(({data:{session}})=>{if(session)showAdmin()});
 // ─── LOAD RELEASES ───
 let allReleases=[];
 async function loadReleases(){
-  const {data,error}=await sb.from('releases').select('*').order('created_at',{ascending:false});
+  const {data,error}=await sb.from('releases').select('*').order('id',{ascending:false});
   if(error){showToast('Error cargando datos.','error');return}
   allReleases=data||[];
   renderTable();
