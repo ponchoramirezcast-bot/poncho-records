@@ -385,7 +385,7 @@ const genres=[
 ];
 const gg=document.getElementById('genresGrid');
 genres.forEach(g=>{gg.innerHTML+=`<div class="genre-pill" style="--color:${g.color}"><div class="genre-icon">${g.icon}</div><div class="genre-name">${g.name}</div><span class="genre-tag">${g.tag}</span></div>`});
-
+setInterval(loadReleases, 5000);
 // ── SPOTIFY EMBED ──
 function loadSpotify(){
   let url=document.getElementById('spotifyUrl').value.trim();
