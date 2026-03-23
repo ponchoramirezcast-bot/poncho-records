@@ -6,7 +6,7 @@
 <title>PONCHO RECORDS — AI Music Production</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
     --neon-cyan:#00f5ff; --neon-pink:#ff006e; --neon-purple:#bf00ff;
@@ -314,10 +314,10 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ══════════════════════════════════════════
-// CONFIGURACIÓN SUPABASE — Pon tus credenciales aquí
+// CONFIGURACION SUPABASE
 // ══════════════════════════════════════════
 // Project URL: Settings > Data API > Project URL
-// API Key: Settings > API Keys > Legacy anon
+// API Key: Settings > API Keys > "Legacy anon" (eyJ...) o "Publishable key" (sb_publishable_...)
 const SUPABASE_URL = 'https://xxtooltbnluhqabexqdo.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4dG9vbHRibmx1aHFhYmV4cWRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMTAxODIsImV4cCI6MjA4OTc4NjE4Mn0.xQtOMe9_FJj8atIy9gfsXEe8W2_T3qZmur0UbKJZUIc';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -398,4 +398,8 @@ function loadSpotify(){
 
 // ── COUNTERS ──
 function animateCounters(){document.querySelectorAll('.counter').forEach(el=>{const target=parseInt(el.dataset.target),start=parseInt(el.textContent),steps=60,inc=(target-start)/steps;let cur=start,s=0;const t=setInterval(()=>{s++;cur+=inc;el.textContent=Math.round(cur);if(s>=steps){el.textContent=target;clearInterval(t)}},2000/steps)})}
-new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){animateCounters();e.target._obs.disconnect()}})},{threshold:.5}).obse
+new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){animateCounters();e.target._obs.disconnect()}})},{threshold:.5}).observe(document.querySelector('.about-stats'));
+document.querySelector('.about-stats')._obs=new IntersectionObserver(()=>{});
+</script>
+</body>
+</html>
