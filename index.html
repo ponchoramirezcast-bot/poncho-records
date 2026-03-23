@@ -391,18 +391,19 @@ function loadSpotify(){
   let url = document.getElementById('spotifyUrl').value.trim();
   if(!url) return;
 
-  // Soporta URLs con o sin /intl-xx/ (ej: /intl-es/, /intl-pt/, etc.)
-  const match = url.match(/spotify\.com(?:\/intl-[a-z]+)?\/(artist|album|track|playlist)\/([a-zA-Z0-9]+)/);
-  
+  // Quitar parámetros (?si=...) y segmento intl
+  url = url.split('?')[0];  // elimina ?si=...
+  url = url.replace(/\/intl-[a-z]+\//, '/');  // elimina /intl-es/
+
+  // Ahora la URL es: https://open.spotify.com/artist/4T4egT7h5uT4LiDZ7d9xfn
+  const match = url.match(/spotify\.com\/(artist|album|track|playlist)\/([a-zA-Z0-9]+)/);
+
   if(!match){
-    alert('URL de Spotify no válida. Usa un enlace de artista, álbum, track o playlist.');
+    alert('URL no válida: ' + url);  // ahora muestra la URL procesada para debug
     return;
   }
 
-  const type = match[1];
-  const id   = match[2];
-
-  const embedUrl = `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0`;
+  const embedUrl = `https://open.spotify.com/embed/${match[1]}/${match[2]}?utm_source=generator&theme=0`;
 
   const frame = document.getElementById('spotify-embed-frame');
   frame.src = embedUrl;
