@@ -29,11 +29,27 @@
   nav{position:fixed;top:0;width:100%;z-index:100;padding:1.2rem 3rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(2,4,8,0.95) 0%,transparent 100%);border-bottom:1px solid rgba(0,245,255,0.1);backdrop-filter:blur(10px)}
   .nav-logo{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;letter-spacing:0.3em;color:var(--neon-cyan);text-shadow:0 0 20px var(--neon-cyan);text-decoration:none}
   .nav-logo span{color:var(--neon-pink)}
-  .nav-links{display:flex;gap:2.5rem;list-style:none}
+  .nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
   .nav-links a{font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;color:var(--text-dim);text-decoration:none;text-transform:uppercase;transition:color .3s;position:relative}
   .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--neon-cyan);transition:width .3s}
   .nav-links a:hover{color:var(--neon-cyan)}
   .nav-links a:hover::after{width:100%}
+
+  /* ── VAULT NAV LINK ── */
+  .nav-vault-link{
+    display:flex;align-items:center;gap:.5rem;
+    font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;
+    padding:.45rem 1rem;border:1px solid rgba(57,255,110,0.5);
+    color:#39ff6e;text-decoration:none;border-radius:2px;
+    transition:all .3s;position:relative;overflow:hidden;
+  }
+  .nav-vault-link::before{content:'';position:absolute;inset:0;background:#39ff6e;transform:translateX(-110%);transition:transform .3s ease;z-index:-1;}
+  .nav-vault-link:hover{color:#000;box-shadow:0 0 20px rgba(57,255,110,0.4);}
+  .nav-vault-link:hover::before{transform:translateX(0);}
+  .nav-vault-link:hover::after{display:none}
+  .vault-dot{width:5px;height:5px;border-radius:50%;background:#39ff6e;animation:vdot 1.5s infinite;}
+  @keyframes vdot{0%,100%{opacity:1}50%{opacity:0.2}}
+
   .nav-spotify{display:flex;align-items:center;gap:.6rem;background:transparent;border:1px solid #1DB954;color:#1DB954;padding:.5rem 1.2rem;font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all .3s}
   .nav-spotify:hover{background:#1DB954;color:#000;box-shadow:0 0 20px #1DB954}
 
@@ -77,6 +93,20 @@
   .btn-primary:hover::before{transform:translateX(0)}
   .btn-secondary{padding:.9rem 2.5rem;font-family:'Orbitron',monospace;font-size:0.75rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;background:rgba(255,0,110,0.1);border:2px solid var(--neon-pink);color:var(--neon-pink);cursor:pointer;text-decoration:none;transition:all .3s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
   .btn-secondary:hover{background:rgba(255,0,110,0.2);box-shadow:0 0 30px var(--neon-pink)}
+
+  /* ── VAULT HERO BUTTON ── */
+  .btn-vault{
+    position:relative;overflow:hidden;
+    padding:.9rem 2.5rem;font-family:'Orbitron',monospace;font-size:0.75rem;font-weight:700;
+    letter-spacing:0.2em;text-transform:uppercase;
+    background:rgba(57,255,110,0.08);border:2px solid #39ff6e;
+    color:#39ff6e;cursor:pointer;text-decoration:none;transition:all .3s;
+    clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+    display:inline-flex;align-items:center;gap:.6rem;
+  }
+  .btn-vault::before{content:'';position:absolute;inset:0;background:#39ff6e;transform:translateX(-110%);transition:transform .35s ease;z-index:-1}
+  .btn-vault:hover{color:#000;box-shadow:0 0 30px rgba(57,255,110,0.5)}
+  .btn-vault:hover::before{transform:translateX(0)}
 
   /* WAVEFORM */
   .waveform-container{position:relative;z-index:2;padding:1rem 0 3rem;display:flex;justify-content:center;align-items:center;gap:3px;animation:fadeSlideUp 1s ease .8s both}
@@ -133,7 +163,7 @@
   .releases-loading{text-align:center;padding:4rem;font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--text-dim);letter-spacing:.2em}
   .releases-loading span{color:var(--neon-cyan);animation:pulse 1s infinite}
 
-  /* SPOTIFY SECTION */
+  /* SPOTIFY */
   #spotify-section{padding:8rem 3rem;background:linear-gradient(180deg,transparent,rgba(29,185,84,0.05),transparent)}
   .spotify-container{max-width:900px;margin:0 auto}
   .spotify-embed-wrapper{border:1px solid rgba(29,185,84,0.3);padding:2rem;background:rgba(29,185,84,0.05);position:relative;overflow:hidden}
@@ -160,6 +190,86 @@
   .genre-name{font-family:'Orbitron',monospace;font-size:0.7rem;font-weight:700;color:#fff;letter-spacing:0.1em;text-transform:uppercase;position:relative;z-index:1}
   .genre-tag{font-family:'Share Tech Mono',monospace;font-size:0.55rem;color:var(--color);letter-spacing:0.15em;margin-top:.3rem;display:block;position:relative;z-index:1}
 
+  /* ── VAULT SECTION ── */
+  #vault-section{padding:8rem 3rem;max-width:1200px;margin:0 auto}
+  .vault-promo{
+    position:relative;overflow:hidden;
+    border:1px solid rgba(57,255,110,0.2);
+    background:linear-gradient(135deg,rgba(57,255,110,0.03) 0%,rgba(0,0,0,0) 60%);
+    padding:4rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+  }
+  .vault-promo::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,#39ff6e,transparent);
+  }
+  .vault-promo::after{
+    content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(57,255,110,0.3),transparent);
+  }
+  .vault-promo-tag{
+    font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:.3em;
+    color:#39ff6e;text-transform:uppercase;margin-bottom:1rem;
+    display:flex;align-items:center;gap:.6rem;
+  }
+  .vault-promo-tag::before{content:'//'}
+  .vault-promo-title{
+    font-family:'Orbitron',monospace;font-size:clamp(1.8rem,3vw,2.6rem);
+    font-weight:900;color:#fff;line-height:1.1;margin-bottom:1rem;
+  }
+  .vault-promo-title span{color:#39ff6e;text-shadow:0 0 20px rgba(57,255,110,0.4)}
+  .vault-promo-desc{
+    font-family:'Share Tech Mono',monospace;font-size:.75rem;
+    color:var(--text-dim);line-height:1.8;letter-spacing:.05em;margin-bottom:2rem;
+  }
+  .vault-features{display:flex;flex-direction:column;gap:.75rem;margin-bottom:2.5rem}
+  .vault-feature{
+    display:flex;align-items:center;gap:.8rem;
+    font-family:'Share Tech Mono',monospace;font-size:.7rem;
+    color:rgba(255,255,255,0.6);letter-spacing:.06em;
+  }
+  .vault-feature::before{
+    content:'▶';color:#39ff6e;font-size:.6rem;flex-shrink:0;
+  }
+  .vault-visual{
+    position:relative;display:flex;align-items:center;justify-content:center;
+    min-height:300px;
+  }
+  .vault-screen{
+    width:100%;max-width:420px;
+    background:#000;border:1px solid rgba(57,255,110,0.3);
+    font-family:'Share Tech Mono',monospace;overflow:hidden;
+    box-shadow:0 0 40px rgba(57,255,110,0.1);
+  }
+  .vault-screen-bar{
+    background:#0a0a0a;border-bottom:1px solid rgba(57,255,110,0.15);
+    padding:.5rem 1rem;display:flex;align-items:center;gap:.5rem;
+  }
+  .vs-dot{width:8px;height:8px;border-radius:50%;}
+  .vault-screen-body{padding:1rem;}
+  .vs-row{
+    display:flex;align-items:center;gap:.6rem;padding:.5rem .6rem;
+    border:1px solid transparent;margin-bottom:4px;
+    font-size:.65rem;color:rgba(255,255,255,0.5);
+    transition:all .3s;
+  }
+  .vs-row.active{border-color:rgba(57,255,110,0.3);background:rgba(57,255,110,0.05);color:#39ff6e;}
+  .vs-dot2{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+  .vs-badge{
+    margin-left:auto;font-size:.55rem;padding:2px 6px;border:1px solid;border-radius:1px;
+  }
+  .vault-screen-stats{
+    display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:.8rem;
+    border-top:1px solid rgba(57,255,110,0.1);padding-top:.8rem;
+  }
+  .vs-stat{text-align:center;padding:.4rem;}
+  .vs-stat-n{font-size:1.1rem;color:#39ff6e;display:block;font-family:'Orbitron',monospace;font-weight:700}
+  .vs-stat-l{font-size:.55rem;color:rgba(255,255,255,0.3);letter-spacing:.1em}
+  .vault-glow{
+    position:absolute;width:200px;height:200px;border-radius:50%;
+    background:radial-gradient(circle,rgba(57,255,110,0.12) 0%,transparent 70%);
+    pointer-events:none;z-index:-1;
+  }
+
   /* CONTACT */
   #contact{padding:8rem 3rem;max-width:800px;margin:0 auto;text-align:center}
   .contact-title{font-family:'Orbitron',monospace;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;line-height:1;color:#fff;margin-bottom:1rem}
@@ -178,7 +288,7 @@
   ::-webkit-scrollbar-track{background:var(--dark-bg)}
   ::-webkit-scrollbar-thumb{background:var(--neon-cyan);border-radius:2px}
 
-  /* ─── RELEASE MODAL ─── */
+  /* RELEASE MODAL */
   .release-modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.88);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:1rem}
   .release-modal-overlay.open{display:flex}
   .release-modal{width:100%;max-width:700px;max-height:92vh;overflow-y:auto;background:var(--dark-panel);border:1px solid rgba(0,245,255,0.2);position:relative;animation:modalIn .35s cubic-bezier(.16,1,.3,1)}
@@ -203,19 +313,35 @@
   .rm-spotify-btn:hover{background:#17a347;box-shadow:0 0 25px rgba(29,185,84,0.5)}
   .rm-spotify-btn svg{width:16px;height:16px;fill:#000}
   .rm-tag{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.15em;color:var(--text-dim);border:1px solid rgba(255,255,255,0.1);padding:.3rem .8rem}
+
+  @media(max-width:900px){
+    #about{grid-template-columns:1fr;gap:3rem}
+    .vault-promo{grid-template-columns:1fr;gap:2rem}
+    nav{padding:1rem 1.5rem}
+    .nav-links{gap:1rem}
+  }
 </style>
 </head>
 <body>
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
+<!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo">PONCHO<span>.</span>REC</a>
   <ul class="nav-links">
     <li><a href="#about">Sistema</a></li>
     <li><a href="#releases">Lanzamientos</a></li>
     <li><a href="#genres">Géneros</a></li>
+    <li><a href="#vault-section">Vault</a></li>
     <li><a href="#contact">Contacto</a></li>
+    <!-- VAULT LINK EN NAV -->
+    <li>
+      <a href="https://ponchoramirezcast-bot.github.io/poncho-prompt-vault/" target="_blank" class="nav-vault-link">
+        <span class="vault-dot"></span>
+        Suno Vault
+      </a>
+    </li>
   </ul>
   <a href="https://open.spotify.com" target="_blank" class="nav-spotify">
     <svg viewBox="0 0 24 24" width="14" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
@@ -223,6 +349,7 @@
   </a>
 </nav>
 
+<!-- HERO -->
 <section id="hero">
   <div class="hero-orb orb-1"></div>
   <div class="hero-orb orb-2"></div>
@@ -238,6 +365,11 @@
     <div class="hero-cta">
       <a href="#releases" class="btn-primary">Ver Lanzamientos</a>
       <a href="#spotify-section" class="btn-secondary">Escuchar en Spotify</a>
+      <!-- VAULT BUTTON EN HERO -->
+      <a href="https://ponchoramirezcast-bot.github.io/poncho-prompt-vault/" target="_blank" class="btn-vault">
+        <svg viewBox="0 0 24 24" width="14" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        Suno Vault
+      </a>
     </div>
   </div>
   <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
@@ -317,6 +449,65 @@
 
 <div class="neon-divider"></div>
 
+<!-- ── SECCIÓN VAULT ── -->
+<section id="vault-section">
+  <div class="section-header">
+    <div class="section-tag">// producción con IA</div>
+    <h2 class="section-title">Suno Prompt Vault</h2>
+    <div class="section-line" style="background:linear-gradient(90deg,#39ff6e,#00f5ff)"></div>
+  </div>
+  <div class="vault-promo">
+    <div>
+      <div class="vault-promo-tag">almacén de prompts</div>
+      <h3 class="vault-promo-title">Tu biblioteca de<br><span>prompts musicales</span></h3>
+      <p class="vault-promo-desc">
+        Guarda, organiza y reutiliza todos tus prompts para Suno AI.<br>
+        Clasificados por género, con BPM, tonalidad y etiquetas.<br>
+        Sincronizado en la nube — disponible en cualquier dispositivo.
+      </p>
+      <div class="vault-features">
+        <div class="vault-feature">Clasificación por géneros musicales</div>
+        <div class="vault-feature">Búsqueda instantánea en tu biblioteca</div>
+        <div class="vault-feature">Copia prompts con un clic para Suno</div>
+        <div class="vault-feature">Guardado automático en la nube</div>
+        <div class="vault-feature">Crea categorías personalizadas</div>
+      </div>
+      <a href="https://ponchoramirezcast-bot.github.io/poncho-prompt-vault/" target="_blank" class="btn-vault">
+        <svg viewBox="0 0 24 24" width="14" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        Abrir Suno Vault
+      </a>
+    </div>
+    <div class="vault-visual">
+      <div class="vault-glow"></div>
+      <div class="vault-screen">
+        <div class="vault-screen-bar">
+          <div class="vs-dot" style="background:#39ff6e;box-shadow:0 0 6px #39ff6e"></div>
+          <div class="vs-dot" style="background:#333"></div>
+          <div class="vs-dot" style="background:#333"></div>
+          <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(57,255,110,0.6);margin-left:.5rem">PONCHO.REC / VAULT</span>
+        </div>
+        <div class="vault-screen-body">
+          <div class="vs-row active">
+            <div class="vs-dot2" style="background:#39ff6e"></div>
+            <span>Todos los prompts</span>
+            <span class="vs-badge" style="color:#39ff6e;border-color:#39ff6e44" id="vsBadgeAll">—</span>
+          </div>
+          <div class="vs-row" id="vsRow0"><div class="vs-dot2" style="background:#ff3b3b"></div><span>Reggaeton</span><span class="vs-badge" style="color:#ff3b3b;border-color:#ff3b3b44">—</span></div>
+          <div class="vs-row" id="vsRow1"><div class="vs-dot2" style="background:#3b8fff"></div><span>Trap / Hip-Hop</span><span class="vs-badge" style="color:#3b8fff;border-color:#3b8fff44">—</span></div>
+          <div class="vs-row" id="vsRow2"><div class="vs-dot2" style="background:#ffb830"></div><span>Cumbia / Salsa</span><span class="vs-badge" style="color:#ffb830;border-color:#ffb83044">—</span></div>
+          <div class="vs-row" id="vsRow3"><div class="vs-dot2" style="background:#c43bff"></div><span>Electrónica</span><span class="vs-badge" style="color:#c43bff;border-color:#c43bff44">—</span></div>
+          <div class="vault-screen-stats">
+            <div class="vs-stat"><span class="vs-stat-n" id="vsStatP">—</span><span class="vs-stat-l">PROMPTS</span></div>
+            <div class="vs-stat"><span class="vs-stat-n" id="vsStatG">—</span><span class="vs-stat-l">GÉNEROS</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="neon-divider"></div>
+
 <section id="contact">
   <h2 class="contact-title">¿Colaboramos?</h2>
   <p class="contact-sub">Abierto a colaboraciones, licencias y proyectos creativos.<br>Conecta conmigo a través de estas plataformas.</p>
@@ -327,7 +518,7 @@
     <a href="https://instagram.com" target="_blank" class="contact-link" style="--hover-color:#E1306C">
       <svg viewBox="0 0 24 24" width="16" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>Instagram
     </a>
-   <a href="mailto:ponchoramirezcast@gmail.com" class="contact-link" style="--hover-color:#00f5ff">
+    <a href="mailto:ponchoramirezcast@gmail.com" class="contact-link" style="--hover-color:#00f5ff">
       <svg viewBox="0 0 24 24" width="16" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>Email
     </a>
   </div>
@@ -338,7 +529,7 @@
   <div class="footer-copy">© 2025 Poncho Records · Powered by <span>AI</span> · All rights reserved</div>
 </footer>
 
-<!-- ─── RELEASE MODAL ─── -->
+<!-- RELEASE MODAL -->
 <div class="release-modal-overlay" id="releaseModalOverlay" onclick="if(event.target===this)closeReleaseModal()">
   <div class="release-modal">
     <button class="rm-close" onclick="closeReleaseModal()">✕</button>
@@ -362,14 +553,12 @@
 </div>
 
 <script>
-// ══════════════════════════════════════════
-// CONFIGURACION SUPABASE
-// ══════════════════════════════════════════
+// SUPABASE
 const SUPABASE_URL = 'https://xxtooltbnluhqabexqdo.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4dG9vbHRibmx1aHFhYmV4cWRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMTAxODIsImV4cCI6MjA4OTc4NjE4Mn0.xQtOMe9_FJj8atIy9gfsXEe8W2_T3qZmur0UbKJZUIc';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ── CURSOR ──
+// CURSOR
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
 let mx=0,my=0,rx=0,ry=0;
@@ -378,28 +567,27 @@ function animCursor(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx
 animCursor();
 document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,.release-card,.genre-pill')){cursor.style.transform='translate(-50%,-50%) scale(2)';ring.style.width='60px';ring.style.height='60px'}else{cursor.style.transform='translate(-50%,-50%) scale(1)';ring.style.width='36px';ring.style.height='36px'}});
 
-// ── WAVEFORM ──
+// WAVEFORM
 const wf=document.getElementById('waveform');
 for(let i=0;i<60;i++){const b=document.createElement('div');b.className='wave-bar';const minH=Math.random()*6+4,maxH=Math.random()*40+20,dur=(Math.random()*1.5+0.6).toFixed(2)+'s',delay=(Math.random()*2).toFixed(2)+'s';const cols=['var(--neon-cyan)','var(--neon-purple)','var(--neon-pink)'];b.style.cssText=`--min-h:${minH}px;--max-h:${maxH}px;--dur:${dur};--delay:${delay};background:${cols[Math.floor(i/20)]};height:${minH}px`;wf.appendChild(b)}
 
-// ── RELEASES desde Supabase ──
+// RELEASES
 async function loadReleases(){
   const grid=document.getElementById('releasesGrid');
   try{
     const {data,error}=await sb.from('releases').select('*').order('created_at',{ascending:false});
-    if(error) throw error;
+    if(error)throw error;
     if(!data||data.length===0){grid.innerHTML='<div class="releases-loading">No hay lanzamientos aún.</div>';return}
     grid.innerHTML='';
     data.forEach(r=>{
       const imgUrl=r.cover_url||'';
       const card=document.createElement('div');
       card.className='release-card';
-      card.style.cursor='pointer';
       card.innerHTML=`
         <div class="release-cover">
           ${imgUrl
             ?`<img class="cover-img" src="${imgUrl}" alt="${r.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-               <div class="cover-placeholder" style="background:${r.bg_gradient||'linear-gradient(135deg,#0a0a0a,#1a1a2a)'}; display:none"><span style="font-size:4rem">${r.emoji||'🎵'}</span></div>`
+               <div class="cover-placeholder" style="background:${r.bg_gradient||'linear-gradient(135deg,#0a0a0a,#1a1a2a)'};display:none"><span style="font-size:4rem">${r.emoji||'🎵'}</span></div>`
             :`<div class="cover-placeholder" style="background:${r.bg_gradient||'linear-gradient(135deg,#0a0a0a,#1a1a2a)'}"><span style="font-size:4rem">${r.emoji||'🎵'}</span></div>`
           }
           <div class="cover-overlay"></div>
@@ -415,81 +603,63 @@ async function loadReleases(){
               <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>Escuchar</a>`:''}
           </div>
         </div>`;
-
-      // Click para abrir modal
-      card.addEventListener('click', () => openReleaseModal(r));
-
+      card.addEventListener('click',()=>openReleaseModal(r));
       grid.appendChild(card);
     });
-
-    // Animación de entrada
     document.querySelectorAll('.release-card').forEach((el,i)=>{
-      el.style.opacity='0';
-      el.style.transform='translateY(20px)';
-      el.style.transition='opacity .5s ease,transform .5s ease';
+      el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity .5s ease,transform .5s ease';
       setTimeout(()=>{el.style.opacity='1';el.style.transform='translateY(0)'},i*80);
     });
-
   }catch(e){
     grid.innerHTML=`<div class="releases-loading" style="color:var(--neon-pink)">Error cargando lanzamientos.</div>`;
   }
 }
 loadReleases();
 
-// ── RELEASE MODAL ──
+// VAULT STATS en la sección promo
+async function loadVaultStats(){
+  try{
+    const [{data:p},{data:g}]=await Promise.all([
+      sb.from('prompts').select('id,genre_id'),
+      sb.from('genres').select('id,name')
+    ]);
+    const total=p?p.length:0;
+    const totalG=g?g.length:0;
+    document.getElementById('vsStatP').textContent=total;
+    document.getElementById('vsStatG').textContent=totalG;
+    document.getElementById('vsBadgeAll').textContent=total;
+    // Llenar rows con géneros reales
+    const rows=['vsRow0','vsRow1','vsRow2','vsRow3'];
+    if(g) g.slice(0,4).forEach((genre,i)=>{
+      const row=document.getElementById(rows[i]);
+      if(!row)return;
+      const cnt=p?p.filter(x=>x.genre_id===genre.id).length:0;
+      row.querySelector('span:first-of-type').textContent=genre.name;
+      row.querySelector('.vs-badge').textContent=cnt;
+    });
+  }catch(e){}
+}
+loadVaultStats();
+
+// RELEASE MODAL
 function openReleaseModal(r){
-  // Portada
-  const coverWrap = document.getElementById('rmCoverWrap');
-  if(r.cover_url){
-    coverWrap.innerHTML = `
-      <img class="rm-cover-img" src="${r.cover_url}" alt="${r.title}">
-      <div class="rm-cover-gradient"></div>`;
-  } else {
-    coverWrap.innerHTML = `
-      <div class="rm-cover-ph" style="background:${r.bg_gradient||'linear-gradient(135deg,#0a0a0a,#1a1a2a)'}">
-        <span>${r.emoji||'🎵'}</span>
-      </div>
-      <div class="rm-cover-gradient"></div>`;
-  }
-
-  // Info
-  const genre = document.getElementById('rmGenre');
-  genre.textContent = r.genre || '';
-  genre.style.color = r.accent_color || 'var(--neon-cyan)';
-
-  const title = document.getElementById('rmTitle');
-  title.textContent = r.title;
-  title.style.color = r.accent_color || '#fff';
-
-  document.getElementById('rmYear').textContent = r.year ? `// ${r.year}` : '';
-  document.getElementById('rmYearTag').textContent = r.year ? r.year : '';
-  document.getElementById('rmDesc').textContent = r.description || 'Sin descripción disponible.';
-
-  // Spotify
-  const sp = document.getElementById('rmSpotify');
-  if(r.spotify_url){
-    sp.href = r.spotify_url;
-    sp.style.display = 'flex';
-  } else {
-    sp.style.display = 'none';
-  }
-
-  // Abrir
+  const coverWrap=document.getElementById('rmCoverWrap');
+  if(r.cover_url){coverWrap.innerHTML=`<img class="rm-cover-img" src="${r.cover_url}" alt="${r.title}"><div class="rm-cover-gradient"></div>`;}
+  else{coverWrap.innerHTML=`<div class="rm-cover-ph" style="background:${r.bg_gradient||'linear-gradient(135deg,#0a0a0a,#1a1a2a)'}"><span>${r.emoji||'🎵'}</span></div><div class="rm-cover-gradient"></div>`;}
+  const genre=document.getElementById('rmGenre');genre.textContent=r.genre||'';genre.style.color=r.accent_color||'var(--neon-cyan)';
+  const title=document.getElementById('rmTitle');title.textContent=r.title;title.style.color=r.accent_color||'#fff';
+  document.getElementById('rmYear').textContent=r.year?`// ${r.year}`:'';
+  document.getElementById('rmYearTag').textContent=r.year?r.year:'';
+  document.getElementById('rmDesc').textContent=r.description||'Sin descripción disponible.';
+  const sp=document.getElementById('rmSpotify');
+  if(r.spotify_url){sp.href=r.spotify_url;sp.style.display='flex';}else{sp.style.display='none';}
   document.getElementById('releaseModalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
+function closeReleaseModal(){document.getElementById('releaseModalOverlay').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeReleaseModal();});
 
-function closeReleaseModal(){
-  document.getElementById('releaseModalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-// Cerrar con ESC
-document.addEventListener('keydown', e => {
-  if(e.key === 'Escape') closeReleaseModal();
-});
-
-// ── GENRES ──
+// GENRES
 const genres=[
   {name:"Heavy Metal",tag:"Devastador",icon:"💀",color:"#ff006e"},
   {name:"Folk Metal",tag:"Épico",icon:"⚔️",color:"#39ff14"},
@@ -503,31 +673,21 @@ const genres=[
 const gg=document.getElementById('genresGrid');
 genres.forEach(g=>{gg.innerHTML+=`<div class="genre-pill" style="--color:${g.color}"><div class="genre-icon">${g.icon}</div><div class="genre-name">${g.name}</div><span class="genre-tag">${g.tag}</span></div>`});
 
-// ── SPOTIFY EMBED ──
+// SPOTIFY
 function loadSpotify(){
-  let url = document.getElementById('spotifyUrl').value.trim();
-  if(!url) return;
-
-  // Limpiar URL: quitar parámetros y segmento intl
-  url = url.split('?')[0];
-  url = url.replace(/\/intl-[a-z]+\//, '/');
-
-  const match = url.match(/spotify\.com\/(artist|album|track|playlist)\/([a-zA-Z0-9]+)/);
-
-  if(!match){
-    alert('URL no válida. Usa un enlace de artista, álbum, track o playlist.');
-    return;
-  }
-
-  const embedUrl = `https://open.spotify.com/embed/${match[1]}/${match[2]}?utm_source=generator&theme=0`;
-
-  const frame = document.getElementById('spotify-embed-frame');
-  frame.src = embedUrl;
-  frame.style.display = 'block';
-  document.getElementById('spotifyPlaceholder').style.display = 'none';
+  let url=document.getElementById('spotifyUrl').value.trim();
+  if(!url)return;
+  url=url.split('?')[0];
+  url=url.replace(/\/intl-[a-z]+\//,'/');
+  const match=url.match(/spotify\.com\/(artist|album|track|playlist)\/([a-zA-Z0-9]+)/);
+  if(!match){alert('URL no válida. Usa un enlace de artista, álbum, track o playlist.');return;}
+  const embedUrl=`https://open.spotify.com/embed/${match[1]}/${match[2]}?utm_source=generator&theme=0`;
+  const frame=document.getElementById('spotify-embed-frame');
+  frame.src=embedUrl;frame.style.display='block';
+  document.getElementById('spotifyPlaceholder').style.display='none';
 }
 
-// ── COUNTERS ──
+// COUNTERS
 function animateCounters(){document.querySelectorAll('.counter').forEach(el=>{const target=parseInt(el.dataset.target),start=parseInt(el.textContent),steps=60,inc=(target-start)/steps;let cur=start,s=0;const t=setInterval(()=>{s++;cur+=inc;el.textContent=Math.round(cur);if(s>=steps){el.textContent=target;clearInterval(t)}},2000/steps)})}
 new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){animateCounters();e.target._obs.disconnect()}})},{threshold:.5}).observe(document.querySelector('.about-stats'));
 document.querySelector('.about-stats')._obs=new IntersectionObserver(()=>{});
