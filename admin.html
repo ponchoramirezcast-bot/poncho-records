@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PONCHO REC — Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
     --neon-cyan:#00f5ff; --neon-pink:#ff006e; --neon-purple:#bf00ff;
@@ -312,9 +312,9 @@
 // CONFIGURACIÓN SUPABASE
 // ══════════════════════════════════════════
 // Project URL: Settings > Data API > Project URL
-// API Key: Settings > API Keys > Legacy anon
-const SUPABASE_URL = https://xxtooltbnluhqabexqdo.supabase.co;
-const SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4dG9vbHRibmx1aHFhYmV4cWRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMTAxODIsImV4cCI6MjA4OTc4NjE4Mn0.xQtOMe9_FJj8atIy9gfsXEe8W2_T3qZmur0UbKJZUIc;
+// API Key: Settings > API Keys > "Legacy anon" (eyJ...) o "Publishable key" (sb_publishable_...)
+const SUPABASE_URL = 'https://xxtooltbnluhqabexqdo.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4dG9vbHRibmx1aHFhYmV4cWRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMTAxODIsImV4cCI6MjA4OTc4NjE4Mn0.xQtOMe9_FJj8atIy9gfsXEe8W2_T3qZmur0UbKJZUIc';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const BUCKET = 'cover'; // nombre del bucket en Supabase Storage
 
