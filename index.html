@@ -589,4 +589,7 @@ function loadSpotify(){
 
 // ── COUNTERS ──
 function animateCounters(){document.querySelectorAll('.counter').forEach(el=>{const target=parseInt(el.dataset.target),start=parseInt(el.textContent),steps=60,inc=(target-start)/steps;let cur=start,s=0;const t=setInterval(()=>{s++;cur+=inc;el.textContent=Math.round(cur);if(s>=steps){el.textContent=target;clearInterval(t)}},2000/steps)})}
-new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){animateCounters();e.target._obs.disconnect()}})},{threshold:.5}).obse
+new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){animateCounters();e.target._obs.disconnect()}})},{threshold:.5}).observe(document.querySelector('.about-stats'));
+</script>
+</body>
+</html>
