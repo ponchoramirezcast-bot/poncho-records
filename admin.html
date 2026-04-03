@@ -18,9 +18,9 @@
   body{background:var(--dark-bg);color:#fff;font-family:'Rajdhani',sans-serif;min-height:100vh}
   body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,245,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.03) 1px,transparent 1px);background-size:60px 60px;z-index:0;pointer-events:none}
 
-  /* ─── LOGIN BOX ─── */
+  /* ─── LOGIN ─── */
   #loginScreen{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:var(--dark-bg)}
-  .login-box{position:relative;z-index:1;width:400px;border:1px solid var(--border);background:var(--dark-panel);padding:3rem}
+  .login-box{position:relative;z-index:1;width:380px;border:1px solid var(--border);background:var(--dark-panel);padding:3rem}
   .login-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple),var(--neon-pink))}
   .login-logo{font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:900;letter-spacing:.3em;color:var(--neon-cyan);text-shadow:0 0 20px var(--neon-cyan);text-align:center;margin-bottom:.3rem}
   .login-logo span{color:var(--neon-pink)}
@@ -29,26 +29,11 @@
   .login-field label{display:block;font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--neon-cyan);text-transform:uppercase;margin-bottom:.4rem}
   .login-field input{width:100%;padding:.75rem 1rem;background:rgba(0,0,0,0.5);border:1px solid var(--border);color:#fff;font-family:'Rajdhani',sans-serif;font-size:1rem;outline:none;transition:border-color .2s}
   .login-field input:focus{border-color:var(--neon-cyan)}
-
-  .action-btn{width:100%;padding:.85rem;margin-top:.5rem;background:transparent;font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;border:2px solid var(--neon-cyan);color:var(--neon-cyan)}
-  .action-btn::before{content:'';position:absolute;inset:0;background:var(--neon-cyan);transform:translateX(-110%);transition:transform .3s;z-index:-1}
-  .action-btn:hover{color:#000;box-shadow:0 0 30px var(--neon-cyan)}
-  .action-btn:hover::before{transform:translateX(0)}
-  .action-btn.purple{border-color:var(--neon-purple);color:var(--neon-purple)}
-  .action-btn.purple::before{background:var(--neon-purple)}
-  .action-btn.purple:hover{color:#fff;box-shadow:0 0 25px var(--neon-purple)}
-  .action-btn.green{border-color:var(--neon-green);color:var(--neon-green)}
-  .action-btn.green::before{background:var(--neon-green)}
-  .action-btn.green:hover{color:#000;box-shadow:0 0 25px var(--neon-green)}
-
-  .msg-error{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--neon-pink);text-align:center;margin-top:.8rem;min-height:1.2rem;letter-spacing:.1em}
-  .msg-ok{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--neon-green);text-align:center;margin-top:.8rem;letter-spacing:.08em;line-height:1.7}
-
-  .text-link{display:block;text-align:center;margin-top:1rem;font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.12em;color:var(--text-dim);cursor:pointer;transition:color .2s;border:none;background:none;width:100%}
-  .text-link:hover{color:var(--neon-cyan)}
-
-  .view{display:none}
-  .view.active{display:block}
+  .login-btn{width:100%;padding:.85rem;margin-top:.5rem;background:transparent;border:2px solid var(--neon-cyan);color:var(--neon-cyan);font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+  .login-btn::before{content:'';position:absolute;inset:0;background:var(--neon-cyan);transform:translateX(-110%);transition:transform .3s;z-index:-1}
+  .login-btn:hover{color:#000;box-shadow:0 0 30px var(--neon-cyan)}
+  .login-btn:hover::before{transform:translateX(0)}
+  .login-error{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--neon-pink);text-align:center;margin-top:.8rem;min-height:1.2rem;letter-spacing:.1em}
 
   /* ─── ADMIN LAYOUT ─── */
   #adminScreen{display:none;min-height:100vh;position:relative;z-index:1}
@@ -60,20 +45,24 @@
   .admin-email{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--text-dim)}
   .logout-btn{padding:.4rem 1rem;background:transparent;border:1px solid rgba(255,0,110,0.4);color:rgba(255,0,110,0.7);font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s}
   .logout-btn:hover{border-color:var(--neon-pink);color:var(--neon-pink)}
+
   .admin-main{max-width:1100px;margin:0 auto;padding:2.5rem 2rem}
 
-  .stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2.5rem}
+  /* ─── STATS BAR ─── */
+  .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem}
   .stat-card{background:var(--dark-panel);border:1px solid var(--border);padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1rem}
   .stat-card .icon{font-size:1.8rem}
   .stat-card .info .num{font-family:'Orbitron',monospace;font-size:1.6rem;font-weight:900;color:var(--neon-cyan)}
   .stat-card .info .lbl{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text-dim);letter-spacing:.15em;text-transform:uppercase}
 
+  /* ─── SECTION HEADER ─── */
   .sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
   .sec-title{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:#fff;letter-spacing:.15em}
   .sec-tag{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--neon-cyan);letter-spacing:.2em}
   .btn-add{display:flex;align-items:center;gap:.5rem;padding:.6rem 1.4rem;background:rgba(0,245,255,0.05);border:1px solid var(--neon-cyan);color:var(--neon-cyan);font-family:'Orbitron',monospace;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s}
   .btn-add:hover{background:rgba(0,245,255,0.12);box-shadow:0 0 20px rgba(0,245,255,0.2)}
 
+  /* ─── RELEASES TABLE ─── */
   .releases-table{width:100%;border-collapse:collapse;margin-bottom:3rem}
   .releases-table th{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--neon-cyan);text-transform:uppercase;padding:.7rem 1rem;border-bottom:1px solid var(--border);text-align:left;background:rgba(0,245,255,0.03)}
   .releases-table td{padding:.8rem 1rem;border-bottom:1px solid rgba(255,255,255,0.05);font-size:.9rem;vertical-align:middle}
@@ -90,6 +79,7 @@
   .btn-del:hover{border-color:var(--neon-pink);color:var(--neon-pink)}
   .empty-state{text-align:center;padding:3rem;font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--text-dim);letter-spacing:.15em}
 
+  /* ─── MODAL ─── */
   .modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:1rem}
   .modal-overlay.open{display:flex}
   .modal{width:100%;max-width:600px;max-height:90vh;overflow-y:auto;background:var(--dark-panel);border:1px solid var(--border);position:relative}
@@ -101,9 +91,11 @@
   .modal-body{padding:1.5rem;display:flex;flex-direction:column;gap:1.2rem}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
   .form-field label{display:block;font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--neon-cyan);text-transform:uppercase;margin-bottom:.4rem}
-  .form-field input[type="text"],.form-field input[type="number"],.form-field textarea{width:100%;padding:.65rem .9rem;background:rgba(0,0,0,0.5);border:1px solid var(--border);color:#fff;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s;resize:vertical}
+  .form-field input[type="text"],.form-field input[type="number"],.form-field textarea,.form-field select{width:100%;padding:.65rem .9rem;background:rgba(0,0,0,0.5);border:1px solid var(--border);color:#fff;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s;resize:vertical}
   .form-field input:focus,.form-field textarea:focus{border-color:var(--neon-cyan)}
   .form-field textarea{min-height:90px}
+
+  /* UPLOAD ZONE */
   .upload-zone{border:2px dashed var(--border);padding:2rem;text-align:center;cursor:pointer;transition:all .3s;position:relative}
   .upload-zone:hover,.upload-zone.drag-over{border-color:var(--neon-cyan);background:rgba(0,245,255,0.04)}
   .upload-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
@@ -114,32 +106,37 @@
   .upload-preview{width:100%;max-height:200px;object-fit:cover;margin-top:.8rem;border:1px solid var(--border);display:none}
   .upload-progress{height:2px;background:var(--border);margin-top:.8rem;overflow:hidden;display:none}
   .upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple));width:0%;transition:width .3s}
+
   .color-row{display:flex;align-items:center;gap:.8rem}
   .color-row input[type="color"]{width:44px;height:36px;border:1px solid var(--border);background:none;cursor:pointer;padding:2px}
   .color-hex{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--text-dim)}
+
   .modal-footer{display:flex;justify-content:flex-end;gap:.8rem;padding:1.2rem 1.5rem;border-top:1px solid var(--border)}
   .btn-cancel{padding:.65rem 1.5rem;background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s}
   .btn-cancel:hover{border-color:rgba(255,255,255,0.4);color:#fff}
-  .btn-save{padding:.65rem 2rem;background:var(--neon-cyan);border:none;color:#000;font-family:'Orbitron',monospace;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+  .btn-save{padding:.65rem 2rem;background:var(--neon-cyan);border:none;color:#000;font-family:'Orbitron',monospace;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s;position:relative}
   .btn-save:hover{box-shadow:0 0 25px var(--neon-cyan)}
   .btn-save:disabled{opacity:.4;cursor:not-allowed}
   .btn-save .spinner{display:none;width:14px;height:14px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;margin-right:.4rem}
   .btn-save.loading .spinner{display:inline-block}
   @keyframes spin{to{transform:rotate(360deg)}}
 
+  /* TOAST */
   .toast{position:fixed;bottom:2rem;right:2rem;z-index:9999;padding:.8rem 1.5rem;font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:.1em;border:1px solid;transform:translateY(100px);opacity:0;transition:all .3s}
   .toast.show{transform:translateY(0);opacity:1}
   .toast.success{background:rgba(57,255,20,0.1);border-color:var(--neon-green);color:var(--neon-green)}
   .toast.error{background:rgba(255,0,110,0.1);border-color:var(--neon-pink);color:var(--neon-pink)}
 
+  /* CONFIRM DIALOG */
   .confirm-overlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center}
   .confirm-overlay.open{display:flex}
   .confirm-box{background:var(--dark-panel);border:1px solid var(--border);padding:2rem;max-width:360px;width:100%;text-align:center}
   .confirm-box h3{font-family:'Orbitron',monospace;font-size:1rem;color:var(--neon-pink);margin-bottom:.8rem}
   .confirm-box p{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--text-dim);line-height:1.6;margin-bottom:1.5rem}
   .confirm-actions{display:flex;gap:.8rem;justify-content:center}
-  .btn-confirm-yes{padding:.6rem 1.5rem;background:var(--neon-pink);border:none;color:#fff;font-family:'Orbitron',monospace;font-size:.65rem;font-weight:700;cursor:pointer}
-  .btn-confirm-no{padding:.6rem 1.5rem;background:transparent;border:1px solid rgba(255,255,255,.2);color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:.65rem;cursor:pointer}
+  .btn-confirm-yes{padding:.6rem 1.5rem;background:var(--neon-pink);border:none;color:#fff;font-family:'Orbitron',monospace;font-size:.65rem;font-weight:700;cursor:pointer;transition:box-shadow .2s}
+  .btn-confirm-yes:hover{box-shadow:0 0 20px var(--neon-pink)}
+  .btn-confirm-no{padding:.6rem 1.5rem;background:transparent;border:1px solid rgba(255,255,255,.2);color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:.65rem;cursor:pointer;transition:all .2s}
   .btn-confirm-no:hover{border-color:#fff;color:#fff}
 
   ::-webkit-scrollbar{width:4px}
@@ -149,63 +146,25 @@
 </head>
 <body>
 
-<!-- ─── LOGIN SCREEN ─── -->
+<!-- ─── LOGIN ─── -->
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-logo">PONCHO<span>.</span>REC</div>
-    <div class="login-sub" id="loginSub">// Panel Administrativo</div>
-
-    <!-- VIEW 1: LOGIN NORMAL -->
-    <div class="view active" id="viewLogin">
-      <div class="login-field">
-        <label>Email</label>
-        <input type="email" id="loginEmail" placeholder="ponchoramirezcast@gmail.com" autocomplete="username">
-      </div>
-      <div class="login-field">
-        <label>Contraseña</label>
-        <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password"
-          onkeydown="if(event.key==='Enter')doLogin()">
-      </div>
-      <button class="action-btn" onclick="doLogin()">Acceder</button>
-      <div class="msg-error" id="loginError"></div>
-      <button class="text-link" onclick="switchView('viewForgot')">¿Olvidaste tu contraseña?</button>
+    <div class="login-sub">// Panel Administrativo</div>
+    <div class="login-field">
+      <label>Email</label>
+      <input type="text" id="loginEmail" placeholder="admin@poncho.com" autocomplete="username">
     </div>
-
-    <!-- VIEW 2: SOLICITAR RESET -->
-    <div class="view" id="viewForgot">
-      <div class="login-field">
-        <label>Tu Email</label>
-        <input type="email" id="forgotEmail" placeholder="ponchoramirezcast@gmail.com" autocomplete="email">
-      </div>
-      <button class="action-btn purple" onclick="sendReset()">Enviar Link de Recuperación</button>
-      <div class="msg-error" id="forgotError"></div>
-      <div class="msg-ok" id="forgotOk" style="display:none">
-        ✓ Email enviado — revisa tu bandeja<br>
-        y haz clic en el link para continuar.
-      </div>
-      <button class="text-link" onclick="switchView('viewLogin')">← Volver al login</button>
+    <div class="login-field">
+      <label>Contraseña</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
-
-    <!-- VIEW 3: NUEVA CONTRASEÑA (aparece cuando llega desde el link del email) -->
-    <div class="view" id="viewNewPass">
-      <div class="login-field">
-        <label>Nueva Contraseña</label>
-        <input type="password" id="newPass" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
-      </div>
-      <div class="login-field">
-        <label>Confirmar Contraseña</label>
-        <input type="password" id="newPassConfirm" placeholder="Repite la contraseña" autocomplete="new-password"
-          onkeydown="if(event.key==='Enter')updatePassword()">
-      </div>
-      <button class="action-btn green" onclick="updatePassword()">Guardar Nueva Contraseña</button>
-      <div class="msg-error" id="newPassError"></div>
-      <div class="msg-ok" id="newPassOk" style="display:none">✓ Contraseña actualizada — entrando...</div>
-    </div>
-
+    <button class="login-btn" onclick="doLogin()">Acceder</button>
+    <div class="login-error" id="loginError"></div>
   </div>
 </div>
 
-<!-- ─── ADMIN SCREEN ─── -->
+<!-- ─── ADMIN ─── -->
 <div id="adminScreen">
   <header class="admin-header">
     <div style="display:flex;align-items:center;gap:1rem">
@@ -214,19 +173,21 @@
     </div>
     <div class="admin-user">
       <span class="admin-email" id="adminEmail"></span>
-      <a href="index.html" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text-dim);text-decoration:none;letter-spacing:.1em;transition:color .2s"
-        onmouseover="this.style.color='var(--neon-cyan)'" onmouseout="this.style.color='var(--text-dim)'">← Ver Sitio</a>
+      <a href="index.html" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text-dim);text-decoration:none;letter-spacing:.1em;transition:color .2s" onmouseover="this.style.color='var(--neon-cyan)'" onmouseout="this.style.color='var(--text-dim)'">← Ver Sitio</a>
       <button class="logout-btn" onclick="doLogout()">Cerrar Sesión</button>
     </div>
   </header>
 
   <main class="admin-main">
+    <!-- Stats -->
     <div class="stats-bar">
       <div class="stat-card"><div class="icon">💿</div><div class="info"><div class="num" id="statTotal">—</div><div class="lbl">Lanzamientos</div></div></div>
       <div class="stat-card"><div class="icon">🖼️</div><div class="info"><div class="num" id="statWithCover">—</div><div class="lbl">Con Portada</div></div></div>
       <div class="stat-card"><div class="icon">🎧</div><div class="info"><div class="num" id="statSpotify">—</div><div class="lbl">En Spotify</div></div></div>
+      <div class="stat-card"><div class="icon">🤝</div><div class="info"><div class="num" id="statCollabs">—</div><div class="lbl">Colaboraciones</div></div></div>
     </div>
 
+    <!-- Releases -->
     <div class="sec-header">
       <div>
         <div class="sec-tag">// gestión de contenido</div>
@@ -235,16 +196,46 @@
       <button class="btn-add" onclick="openModal()">+ Nuevo Lanzamiento</button>
     </div>
 
-    <table class="releases-table">
+    <table class="releases-table" id="releasesTable">
       <thead>
         <tr>
-          <th>Portada</th><th>Título</th><th>Género</th><th>Año</th><th>Spotify</th><th>Acciones</th>
+          <th>Portada</th>
+          <th>Título</th>
+          <th>Género</th>
+          <th>Año</th>
+          <th>Spotify</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody id="releasesBody">
         <tr><td colspan="6" class="empty-state">Cargando...</td></tr>
       </tbody>
     </table>
+
+    <!-- ─── COLABORACIONES ─── -->
+    <div style="margin-top:3.5rem">
+      <div class="sec-header">
+        <div>
+          <div class="sec-tag">// red de artistas</div>
+          <div class="sec-title">Colaboraciones</div>
+        </div>
+        <button class="btn-add" onclick="openCollabModal()" style="border-color:var(--neon-purple);color:var(--neon-purple)">+ Nueva Colaboración</button>
+      </div>
+      <table class="releases-table" id="collabsTable">
+        <thead>
+          <tr>
+            <th>Imagen</th>
+            <th>Artista</th>
+            <th>Tipo</th>
+            <th>Spotify</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="collabsBody">
+          <tr><td colspan="5" class="empty-state">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
   </main>
 </div>
 
@@ -257,6 +248,8 @@
     </div>
     <div class="modal-body">
       <input type="hidden" id="editId">
+
+      <!-- Portada -->
       <div class="form-field">
         <label>Portada del Álbum</label>
         <div class="upload-zone" id="uploadZone">
@@ -269,15 +262,38 @@
         </div>
         <div id="currentCoverInfo" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text-dim);margin-top:.4rem;display:none"></div>
       </div>
+
+      <!-- Título + Año -->
       <div class="form-row">
-        <div class="form-field"><label>Título *</label><input type="text" id="fTitle" placeholder="Nombre del lanzamiento"></div>
-        <div class="form-field"><label>Año *</label><input type="number" id="fYear" placeholder="2025" min="2000" max="2099"></div>
+        <div class="form-field">
+          <label>Título *</label>
+          <input type="text" id="fTitle" placeholder="Nombre del lanzamiento">
+        </div>
+        <div class="form-field">
+          <label>Año *</label>
+          <input type="number" id="fYear" placeholder="2025" min="2000" max="2099">
+        </div>
       </div>
+
+      <!-- Género + Emoji -->
       <div class="form-row">
-        <div class="form-field"><label>Género</label><input type="text" id="fGenre" placeholder="Heavy Metal / AI"></div>
-        <div class="form-field"><label>Emoji (respaldo)</label><input type="text" id="fEmoji" placeholder="💀" maxlength="4"></div>
+        <div class="form-field">
+          <label>Género</label>
+          <input type="text" id="fGenre" placeholder="Heavy Metal / AI">
+        </div>
+        <div class="form-field">
+          <label>Emoji (respaldo)</label>
+          <input type="text" id="fEmoji" placeholder="💀" maxlength="4">
+        </div>
       </div>
-      <div class="form-field"><label>Descripción del Álbum</label><textarea id="fDesc" placeholder="Describe este lanzamiento..."></textarea></div>
+
+      <!-- Descripción -->
+      <div class="form-field">
+        <label>Descripción del Álbum</label>
+        <textarea id="fDesc" placeholder="Describe este lanzamiento, su concepto, inspiración o sonido..."></textarea>
+      </div>
+
+      <!-- Color acento -->
       <div class="form-field">
         <label>Color de Acento</label>
         <div class="color-row">
@@ -285,8 +301,14 @@
           <span class="color-hex" id="fColorHex">#00f5ff</span>
         </div>
       </div>
-      <div class="form-field"><label>Link de Spotify</label><input type="text" id="fSpotify" placeholder="https://open.spotify.com/album/..."></div>
+
+      <!-- Spotify URL -->
+      <div class="form-field">
+        <label>Link de Spotify</label>
+        <input type="text" id="fSpotify" placeholder="https://open.spotify.com/album/...">
+      </div>
     </div>
+
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
       <button class="btn-save" id="saveBtn" onclick="saveRelease()">
@@ -300,7 +322,7 @@
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
     <h3>⚠ Eliminar Lanzamiento</h3>
-    <p id="confirmMsg">Esta acción no se puede deshacer.</p>
+    <p>Esta acción eliminará el lanzamiento y su portada permanentemente. No se puede deshacer.</p>
     <div class="confirm-actions">
       <button class="btn-confirm-no" onclick="closeConfirm()">Cancelar</button>
       <button class="btn-confirm-yes" id="confirmYes">Eliminar</button>
@@ -308,139 +330,155 @@
   </div>
 </div>
 
+<!-- ─── MODAL COLABORACIÓN ─── -->
+<div class="modal-overlay" id="collabModalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="collabModalTitle">Nueva Colaboración</div>
+      <button class="modal-close" onclick="closeCollabModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="cEditId">
+      <div class="form-field">
+        <label>Imagen del Artista</label>
+        <div class="upload-zone" id="collabUploadZone">
+          <input type="file" id="collabImgFile" accept="image/*" onchange="handleCollabFileSelect(this)">
+          <div class="upload-icon">🎤</div>
+          <div class="upload-text">Arrastra la imagen o <span>haz clic para buscar</span></div>
+          <div class="upload-hint">JPG, PNG, WEBP · Máximo 5MB · Recomendado 800×800px</div>
+          <img class="upload-preview" id="collabImgPreview">
+          <div class="upload-progress" id="collabUploadProgress"><div class="upload-progress-bar" id="collabProgressBar"></div></div>
+        </div>
+        <div id="currentCollabImgInfo" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text-dim);margin-top:.4rem;display:none"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Nombre del Artista *</label>
+          <input type="text" id="cName" placeholder="DJ Ejemplo / Banda XYZ">
+        </div>
+        <div class="form-field">
+          <label>Tipo *</label>
+          <select id="cType">
+            <option value="colab">Colaboración</option>
+            <option value="playlist">Playlist</option>
+            <option value="feature">Feature</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Emoji (respaldo)</label>
+          <input type="text" id="cEmoji" placeholder="🎤" maxlength="4">
+        </div>
+        <div class="form-field">
+          <label>Color de Acento</label>
+          <div class="color-row">
+            <input type="color" id="cColor" value="#bf00ff" oninput="document.getElementById('cColorHex').textContent=this.value">
+            <span class="color-hex" id="cColorHex">#bf00ff</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Descripción / Bio</label>
+        <textarea id="cDesc" placeholder="Breve descripción del artista, la colaboración o la playlist..."></textarea>
+      </div>
+      <div class="form-field">
+        <label>Link de Spotify (playlist, álbum o artista)</label>
+        <input type="text" id="cSpotify" placeholder="https://open.spotify.com/playlist/...">
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Destacado</label>
+          <select id="cFeatured">
+            <option value="false">No</option>
+            <option value="true">Sí (pin al inicio)</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Orden (menor = primero)</label>
+          <input type="number" id="cSortOrder" value="0" min="0" max="999">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeCollabModal()">Cancelar</button>
+      <button class="btn-save" id="collabSaveBtn" onclick="saveCollab()" style="background:var(--neon-purple)">
+        <span class="spinner"></span>Guardar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CONFIRM COLLAB DELETE ─── -->
+<div class="confirm-overlay" id="collabConfirmOverlay">
+  <div class="confirm-box">
+    <h3 style="color:var(--neon-purple)">⚠ Eliminar Colaboración</h3>
+    <p id="collabConfirmText">Esta acción eliminará la colaboración permanentemente.</p>
+    <div class="confirm-actions">
+      <button class="btn-confirm-no" onclick="closeCollabConfirm()">Cancelar</button>
+      <button class="btn-confirm-yes" id="collabConfirmYes" style="background:var(--neon-purple)">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TOAST ─── -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── SUPABASE ──
-const SB_URL  = 'https://xxtooltbnluhqabexqdo.supabase.co';
-const SB_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4dG9vbHRibmx1aHFhYmV4cWRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMTAxODIsImV4cCI6MjA4OTc4NjE4Mn0.xQtOMe9_FJj8atIy9gfsXEe8W2_T3qZmur0UbKJZUIc';
-const sb = supabase.createClient(SB_URL, SB_KEY);
-const BUCKET = 'cover';
+// ══════════════════════════════════════════
+// CONFIGURACIÓN SUPABASE
+// ══════════════════════════════════════════
+// Project URL: Settings → Data API → Project URL
+// API Key: Settings → API Keys → "Legacy anon" (eyJ...) o "Publishable key" (sb_publishable_...)
+const SUPABASE_URL = https://xxtooltbnluhqabexqdo.supabase.co;
+const SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4dG9vbHRibmx1aHFhYmV4cWRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMTAxODIsImV4cCI6MjA4OTc4NjE4Mn0.xQtOMe9_FJj8atIy9gfsXEe8W2_T3qZmur0UbKJZUIc;
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const BUCKET = 'cover'; // nombre del bucket en Supabase Storage
 
-// ── TOAST ──
-function showToast(msg,type='success'){
+// ─── TOAST ───
+function showToast(msg, type='success'){
   const t=document.getElementById('toast');
-  t.textContent=msg;t.className=`toast ${type} show`;
+  t.textContent=msg; t.className=`toast ${type} show`;
   setTimeout(()=>t.classList.remove('show'),3500);
 }
 
-// ── VIEW SWITCHER ──
-function switchView(viewId){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.getElementById(viewId).classList.add('active');
-  // Update subtitle
-  const subs={viewLogin:'// Panel Administrativo',viewForgot:'// Recuperar Acceso',viewNewPass:'// Nueva Contraseña'};
-  document.getElementById('loginSub').textContent=subs[viewId]||'// Panel Administrativo';
-  // Clear errors
-  ['loginError','forgotError','newPassError'].forEach(id=>{
-    const el=document.getElementById(id);if(el)el.textContent='';
-  });
-}
-
-// ── DETECTAR TOKEN DE RESET EN URL ──
-// Supabase manda #access_token=...&type=recovery al regresar del email
-(async function detectResetToken(){
-  // Supabase v2 maneja el hash automáticamente — solo escuchar el evento
-  const { data: { session } } = await sb.auth.getSession();
-  
-  // Revisar si hay token de recovery en el hash de la URL
-  const hash = window.location.hash;
-  if(hash.includes('type=recovery')){
-    // Supabase ya procesó el token y creó la sesión temporal
-    switchView('viewNewPass');
-    return;
-  }
-
-  // Si ya hay sesión activa, ir directo al admin
-  if(session){
-    showAdmin(session.user);
-    return;
-  }
-
-  // Escuchar cambios de auth (incluye cuando regresa del link de reset)
-  sb.auth.onAuthStateChange((event, session) => {
-    if(event === 'PASSWORD_RECOVERY'){
-      // El usuario llegó desde el link del email de reset
-      switchView('viewNewPass');
-    } else if(event === 'SIGNED_IN' && session){
-      showAdmin(session.user);
-    }
-  });
-})();
-
-// ── LOGIN ──
+// ─── AUTH ───
 async function doLogin(){
   const email=document.getElementById('loginEmail').value.trim();
   const pass=document.getElementById('loginPass').value;
   const err=document.getElementById('loginError');
   err.textContent='';
   if(!email||!pass){err.textContent='Completa todos los campos.';return}
-  const {data,error}=await sb.auth.signInWithPassword({email,password:pass});
-  if(error){
-    err.textContent=error.message.includes('Invalid')?'Email o contraseña incorrectos.':error.message;
-    return;
-  }
-  showAdmin(data.user);
+  const {error}=await sb.auth.signInWithPassword({email,password:pass});
+  if(error){err.textContent='Credenciales incorrectas.';return}
+  showAdmin();
 }
-
-// ── LOGOUT ──
 async function doLogout(){
   await sb.auth.signOut();
   document.getElementById('adminScreen').style.display='none';
   document.getElementById('loginScreen').style.display='flex';
-  switchView('viewLogin');
 }
-
-// ── SHOW ADMIN ──
-function showAdmin(user){
+async function showAdmin(){
+  const {data:{user}}=await sb.auth.getUser();
+  if(!user)return;
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('adminScreen').style.display='block';
   document.getElementById('adminEmail').textContent=user.email;
   loadReleases();
+  loadCollabs();
 }
 
-// ── SEND RESET EMAIL ──
-async function sendReset(){
-  const email=document.getElementById('forgotEmail').value.trim();
-  const err=document.getElementById('forgotError');
-  const ok=document.getElementById('forgotOk');
-  err.textContent='';ok.style.display='none';
-  if(!email){err.textContent='Ingresa tu email.';return}
-  const {error}=await sb.auth.resetPasswordForEmail(email,{
-    redirectTo: window.location.href  // regresa a esta misma página admin
-  });
-  if(error){err.textContent='Error: '+error.message;return}
-  ok.style.display='block';
-}
+// Check sesión al cargar
+sb.auth.getSession().then(({data:{session}})=>{if(session)showAdmin()});
 
-// ── UPDATE PASSWORD (desde el link del email) ──
-async function updatePassword(){
-  const pass=document.getElementById('newPass').value;
-  const confirm=document.getElementById('newPassConfirm').value;
-  const err=document.getElementById('newPassError');
-  const ok=document.getElementById('newPassOk');
-  err.textContent='';ok.style.display='none';
-  if(!pass||!confirm){err.textContent='Completa ambos campos.';return}
-  if(pass.length<6){err.textContent='Mínimo 6 caracteres.';return}
-  if(pass!==confirm){err.textContent='Las contraseñas no coinciden.';return}
-  const {data,error}=await sb.auth.updateUser({password:pass});
-  if(error){err.textContent='Error: '+error.message;return}
-  ok.style.display='block';
-  showToast('✓ Contraseña actualizada','success');
-  // Limpiar URL y entrar al admin después de 1.5s
-  setTimeout(()=>{
-    window.history.replaceState(null,'',window.location.pathname);
-    showAdmin(data.user);
-  },1500);
-}
-
-// ── LOAD RELEASES ──
+// ─── LOAD RELEASES ───
 let allReleases=[];
 async function loadReleases(){
   const {data,error}=await sb.from('releases').select('*').order('created_at',{ascending:false});
   if(error){showToast('Error cargando datos.','error');return}
   allReleases=data||[];
-  renderTable();updateStats();
+  renderTable();
+  updateStats();
 }
 
 function renderTable(){
@@ -466,13 +504,14 @@ function updateStats(){
   document.getElementById('statSpotify').textContent=allReleases.filter(r=>r.spotify_url).length;
 }
 
-// ── MODAL ──
+// ─── MODAL ───
 let pendingFile=null;
 function openModal(id=null){
   pendingFile=null;
   const isEdit=!!id;
   document.getElementById('modalTitle').textContent=isEdit?'Editar Lanzamiento':'Nuevo Lanzamiento';
   document.getElementById('editId').value=id||'';
+  // reset
   ['fTitle','fYear','fGenre','fEmoji','fDesc','fSpotify'].forEach(f=>document.getElementById(f).value='');
   document.getElementById('fColor').value='#00f5ff';
   document.getElementById('fColorHex').textContent='#00f5ff';
@@ -480,8 +519,10 @@ function openModal(id=null){
   document.getElementById('coverFile').value='';
   document.getElementById('currentCoverInfo').style.display='none';
   document.getElementById('uploadProgress').style.display='none';
+
   if(isEdit){
-    const r=allReleases.find(x=>x.id===id);if(!r)return;
+    const r=allReleases.find(x=>x.id===id);
+    if(!r)return;
     document.getElementById('fTitle').value=r.title||'';
     document.getElementById('fYear').value=r.year||'';
     document.getElementById('fGenre').value=r.genre||'';
@@ -500,35 +541,46 @@ function openModal(id=null){
 }
 function closeModal(){document.getElementById('modalOverlay').classList.remove('open')}
 
+// ─── FILE HANDLING ───
 function handleFileSelect(input){
-  const file=input.files[0];if(!file)return;
+  const file=input.files[0];
+  if(!file)return;
   if(file.size>5*1024*1024){showToast('La imagen supera 5MB.','error');return}
   pendingFile=file;
   const reader=new FileReader();
-  reader.onload=e=>{const p=document.getElementById('coverPreview');p.src=e.target.result;p.style.display='block'};
+  reader.onload=e=>{
+    const prev=document.getElementById('coverPreview');
+    prev.src=e.target.result; prev.style.display='block';
+  };
   reader.readAsDataURL(file);
 }
 
+// Drag & Drop
 const zone=document.getElementById('uploadZone');
 zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over')});
 zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
 zone.addEventListener('drop',e=>{
-  e.preventDefault();zone.classList.remove('drag-over');
+  e.preventDefault(); zone.classList.remove('drag-over');
   const file=e.dataTransfer.files[0];
   if(file&&file.type.startsWith('image/')){
     const fi=document.getElementById('coverFile');
-    const dt=new DataTransfer();dt.items.add(file);fi.files=dt.files;
+    const dt=new DataTransfer(); dt.items.add(file); fi.files=dt.files;
     handleFileSelect(fi);
   }
 });
 
+// ─── SAVE ───
 async function saveRelease(){
   const title=document.getElementById('fTitle').value.trim();
   const year=document.getElementById('fYear').value.trim();
   if(!title){showToast('El título es obligatorio.','error');return}
+
   const btn=document.getElementById('saveBtn');
-  btn.classList.add('loading');btn.disabled=true;
-  let coverUrl=null,coverPath=null;
+  btn.classList.add('loading'); btn.disabled=true;
+
+  let coverUrl=null, coverPath=null;
+
+  // Subir portada si hay archivo nuevo
   if(pendingFile){
     try{
       document.getElementById('uploadProgress').style.display='block';
@@ -536,38 +588,215 @@ async function saveRelease(){
       const ext=pendingFile.name.split('.').pop();
       const fileName=`${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
       document.getElementById('progressBar').style.width='60%';
-      const {error:upErr}=await sb.storage.from(BUCKET).upload(fileName,pendingFile,{cacheControl:'3600',upsert:false});
-      if(upErr)throw upErr;
+      const {data:upData,error:upErr}=await sb.storage.from(BUCKET).upload(fileName,pendingFile,{cacheControl:'3600',upsert:false});
+      if(upErr) throw upErr;
       document.getElementById('progressBar').style.width='90%';
       const {data:urlData}=sb.storage.from(BUCKET).getPublicUrl(fileName);
-      coverUrl=urlData.publicUrl;coverPath=fileName;
+      coverUrl=urlData.publicUrl;
+      coverPath=fileName;
       document.getElementById('progressBar').style.width='100%';
-    }catch(e){showToast('Error subiendo imagen: '+e.message,'error');btn.classList.remove('loading');btn.disabled=false;return}
+    }catch(e){
+      showToast('Error subiendo imagen: '+e.message,'error');
+      btn.classList.remove('loading'); btn.disabled=false; return;
+    }
   }
+
   const id=document.getElementById('editId').value;
   const payload={
-    title,year:year||null,
+    title,
+    year:year||null,
     genre:document.getElementById('fGenre').value.trim()||null,
     emoji:document.getElementById('fEmoji').value.trim()||'🎵',
     description:document.getElementById('fDesc').value.trim()||null,
     accent_color:document.getElementById('fColor').value,
     spotify_url:document.getElementById('fSpotify').value.trim()||null,
-    bg_gradient:`linear-gradient(135deg,#0a0a0a,#1a1a${document.getElementById('fColor').value.slice(5,7)})`
+    bg_gradient:`linear-gradient(135deg, #0a0a0a, #1a1a${document.getElementById('fColor').value.slice(5,7)})`
   };
-  if(coverUrl){payload.cover_url=coverUrl;payload.cover_path=coverPath}
+  if(coverUrl){payload.cover_url=coverUrl; payload.cover_path=coverPath}
+
   let err;
-  if(id){({error:err}=await sb.from('releases').update(payload).eq('id',id))}
-  else{({error:err}=await sb.from('releases').insert([payload]))}
-  btn.classList.remove('loading');btn.disabled=false;
+  if(id){
+    ({error:err}=await sb.from('releases').update(payload).eq('id',id));
+  }else{
+    ({error:err}=await sb.from('releases').insert([payload]));
+  }
+
+  btn.classList.remove('loading'); btn.disabled=false;
+
   if(err){showToast('Error guardando: '+err.message,'error');return}
   showToast(id?'Lanzamiento actualizado ✓':'Lanzamiento creado ✓','success');
-  closeModal();loadReleases();
+  closeModal();
+  loadReleases();
 }
 
-let _delId=null,_delPath=null;
+// ══════════════════════════════════════════
+// ─── COLABORACIONES ADMIN ───
+// ══════════════════════════════════════════
+const ARTISTS_BUCKET='artists';
+let allCollabs=[], pendingCollabFile=null;
+
+async function loadCollabs(){
+  const {data,error}=await sb.from('collaborations').select('*').order('sort_order').order('created_at',{ascending:false});
+  if(error){showToast('Error cargando colaboraciones.','error');return}
+  allCollabs=data||[];
+  renderCollabTable();
+  const el=document.getElementById('statCollabs');
+  if(el) el.textContent=allCollabs.length;
+}
+
+function renderCollabTable(){
+  const tbody=document.getElementById('collabsBody');
+  if(!allCollabs.length){tbody.innerHTML='<tr><td colspan="5" class="empty-state">Sin colaboraciones. ¡Agrega la primera!</td></tr>';return}
+  const typeLabels={colab:'Colab',playlist:'Playlist',feature:'Feature'};
+  const typeColors={colab:'var(--neon-cyan)',playlist:'var(--neon-green)',feature:'var(--neon-pink)'};
+  tbody.innerHTML=allCollabs.map(c=>`
+    <tr>
+      <td>${c.image_url?`<img class="tbl-cover" src="${c.image_url}" alt="">`:`<div class="tbl-cover-ph">${c.emoji||'🎵'}</div>`}</td>
+      <td><div class="tbl-title" style="color:${c.accent_color||'#fff'}">${c.artist_name}</div></td>
+      <td><div class="tbl-genre" style="color:${typeColors[c.collab_type]||'var(--text-dim)'}">${typeLabels[c.collab_type]||c.collab_type}</div></td>
+      <td>${c.spotify_url?`<span style="color:#1DB954;font-family:'Share Tech Mono',monospace;font-size:.65rem">✓ Sí</span>`:`<span style="color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:.65rem">—</span>`}</td>
+      <td><div class="tbl-actions">
+        <button class="btn-edit" style="border-color:rgba(191,0,255,0.3);color:var(--neon-purple)" onclick="openCollabModal('${c.id}')">✏ Editar</button>
+        <button class="btn-del" onclick="confirmCollabDelete('${c.id}','${c.artist_name.replace(/'/g,"\\'")}','${c.image_path||''}')">✕</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function openCollabModal(id=null){
+  pendingCollabFile=null;
+  const isEdit=!!id;
+  document.getElementById('collabModalTitle').textContent=isEdit?'Editar Colaboración':'Nueva Colaboración';
+  document.getElementById('cEditId').value=id||'';
+  ['cName','cEmoji','cDesc','cSpotify'].forEach(f=>document.getElementById(f).value='');
+  document.getElementById('cType').value='colab';
+  document.getElementById('cColor').value='#bf00ff';
+  document.getElementById('cColorHex').textContent='#bf00ff';
+  document.getElementById('cFeatured').value='false';
+  document.getElementById('cSortOrder').value='0';
+  document.getElementById('collabImgPreview').style.display='none';
+  document.getElementById('collabImgFile').value='';
+  document.getElementById('currentCollabImgInfo').style.display='none';
+  document.getElementById('collabUploadProgress').style.display='none';
+
+  if(isEdit){
+    const c=allCollabs.find(x=>x.id===id);
+    if(!c) return;
+    document.getElementById('cName').value=c.artist_name||'';
+    document.getElementById('cType').value=c.collab_type||'colab';
+    document.getElementById('cEmoji').value=c.emoji||'';
+    document.getElementById('cDesc').value=c.description||'';
+    document.getElementById('cSpotify').value=c.spotify_url||'';
+    document.getElementById('cColor').value=c.accent_color||'#bf00ff';
+    document.getElementById('cColorHex').textContent=c.accent_color||'#bf00ff';
+    document.getElementById('cFeatured').value=c.is_featured?'true':'false';
+    document.getElementById('cSortOrder').value=c.sort_order??0;
+    if(c.image_url){
+      const info=document.getElementById('currentCollabImgInfo');
+      info.style.display='block';
+      info.innerHTML=`Imagen actual: <a href="${c.image_url}" target="_blank" style="color:var(--neon-purple)">ver imagen</a> · Sube una nueva para reemplazarla`;
+    }
+  }
+  document.getElementById('collabModalOverlay').classList.add('open');
+}
+
+function closeCollabModal(){document.getElementById('collabModalOverlay').classList.remove('open')}
+
+function handleCollabFileSelect(input){
+  const file=input.files[0];
+  if(!file) return;
+  if(file.size>5*1024*1024){showToast('La imagen supera 5MB.','error');return}
+  pendingCollabFile=file;
+  const reader=new FileReader();
+  reader.onload=e=>{const prev=document.getElementById('collabImgPreview');prev.src=e.target.result;prev.style.display='block'};
+  reader.readAsDataURL(file);
+}
+
+const collabZone=document.getElementById('collabUploadZone');
+collabZone.addEventListener('dragover',e=>{e.preventDefault();collabZone.classList.add('drag-over')});
+collabZone.addEventListener('dragleave',()=>collabZone.classList.remove('drag-over'));
+collabZone.addEventListener('drop',e=>{
+  e.preventDefault();collabZone.classList.remove('drag-over');
+  const file=e.dataTransfer.files[0];
+  if(file&&file.type.startsWith('image/')){
+    const fi=document.getElementById('collabImgFile');
+    const dt=new DataTransfer();dt.items.add(file);fi.files=dt.files;
+    handleCollabFileSelect(fi);
+  }
+});
+
+async function saveCollab(){
+  const artist_name=document.getElementById('cName').value.trim();
+  if(!artist_name){showToast('El nombre del artista es obligatorio.','error');return}
+
+  const btn=document.getElementById('collabSaveBtn');
+  btn.classList.add('loading');btn.disabled=true;
+
+  let image_url=null,image_path=null;
+  if(pendingCollabFile){
+    try{
+      document.getElementById('collabUploadProgress').style.display='block';
+      document.getElementById('collabProgressBar').style.width='30%';
+      const ext=pendingCollabFile.name.split('.').pop();
+      const fileName=`${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      document.getElementById('collabProgressBar').style.width='60%';
+      const {error:upErr}=await sb.storage.from(ARTISTS_BUCKET).upload(fileName,pendingCollabFile,{cacheControl:'3600',upsert:false});
+      if(upErr) throw upErr;
+      document.getElementById('collabProgressBar').style.width='90%';
+      const {data:urlData}=sb.storage.from(ARTISTS_BUCKET).getPublicUrl(fileName);
+      image_url=urlData.publicUrl;image_path=fileName;
+      document.getElementById('collabProgressBar').style.width='100%';
+    }catch(e){
+      showToast('Error subiendo imagen: '+e.message,'error');
+      btn.classList.remove('loading');btn.disabled=false;return;
+    }
+  }
+
+  const id=document.getElementById('cEditId').value;
+  const payload={
+    artist_name,
+    collab_type:document.getElementById('cType').value,
+    emoji:document.getElementById('cEmoji').value.trim()||'🎵',
+    description:document.getElementById('cDesc').value.trim()||null,
+    spotify_url:document.getElementById('cSpotify').value.trim()||null,
+    accent_color:document.getElementById('cColor').value,
+    is_featured:document.getElementById('cFeatured').value==='true',
+    sort_order:parseInt(document.getElementById('cSortOrder').value)||0,
+  };
+  if(image_url){payload.image_url=image_url;payload.image_path=image_path}
+
+  let err;
+  if(id){({error:err}=await sb.from('collaborations').update(payload).eq('id',id))}
+  else{({error:err}=await sb.from('collaborations').insert([payload]))}
+
+  btn.classList.remove('loading');btn.disabled=false;
+  if(err){showToast('Error guardando: '+err.message,'error');return}
+  showToast(id?'Colaboración actualizada ✓':'Colaboración creada ✓','success');
+  closeCollabModal();
+  loadCollabs();
+}
+
+let _delCollabId=null,_delCollabPath=null;
+function confirmCollabDelete(id,name,path){
+  _delCollabId=id;_delCollabPath=path;
+  document.getElementById('collabConfirmText').textContent=`Se eliminará "${name}" permanentemente.`;
+  document.getElementById('collabConfirmOverlay').classList.add('open');
+  document.getElementById('collabConfirmYes').onclick=execCollabDelete;
+}
+function closeCollabConfirm(){document.getElementById('collabConfirmOverlay').classList.remove('open')}
+async function execCollabDelete(){
+  closeCollabConfirm();
+  if(_delCollabPath){await sb.storage.from(ARTISTS_BUCKET).remove([_delCollabPath])}
+  const {error}=await sb.from('collaborations').delete().eq('id',_delCollabId);
+  if(error){showToast('Error al eliminar.','error');return}
+  showToast('Colaboración eliminada.','success');
+  loadCollabs();
+}
+
+// ─── DELETE ───
+let _delId=null, _delPath=null;
 function confirmDelete(id,title,path){
-  _delId=id;_delPath=path;
-  document.getElementById('confirmMsg').textContent=`Se eliminará "${title}" permanentemente.`;
+  _delId=id; _delPath=path;
+  document.querySelector('.confirm-box p').textContent=`Se eliminará "${title}" permanentemente.`;
   document.getElementById('confirmOverlay').classList.add('open');
   document.getElementById('confirmYes').onclick=execDelete;
 }
@@ -577,7 +806,8 @@ async function execDelete(){
   if(_delPath){await sb.storage.from(BUCKET).remove([_delPath])}
   const {error}=await sb.from('releases').delete().eq('id',_delId);
   if(error){showToast('Error al eliminar.','error');return}
-  showToast('Lanzamiento eliminado.','success');loadReleases();
+  showToast('Lanzamiento eliminado.','success');
+  loadReleases();
 }
 </script>
 </body>
