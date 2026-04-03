@@ -18,8 +18,8 @@
   body{background:var(--dark-bg);color:#fff;font-family:'Rajdhani',sans-serif;overflow-x:hidden;cursor:none}
 
   /* CURSOR */
-  .cursor{position:fixed;width:12px;height:12px;background:var(--neon-cyan);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,background .2s;mix-blend-mode:screen;box-shadow:0 0 10px var(--neon-cyan),0 0 20px var(--neon-cyan)}
-  .cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(0,245,255,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .18s ease,width .2s,height .2s}
+  .cursor{position:fixed;width:12px;height:12px;background:var(--neon-cyan);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%) translateZ(0);transition:transform .1s,background .2s;mix-blend-mode:screen;box-shadow:0 0 10px var(--neon-cyan),0 0 20px var(--neon-cyan);will-change:transform}
+  .cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(0,245,255,0.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%) translateZ(0);transition:transform .18s ease,width .2s,height .2s;will-change:transform}
 
   /* GRID + SCANLINES */
   body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(var(--grid-color) 1px,transparent 1px),linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);background-size:60px 60px;z-index:0;pointer-events:none}
