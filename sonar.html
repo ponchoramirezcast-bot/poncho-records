@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonar Collective — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --neon-cyan:#00f5ff; --neon-pink:#ff006e; --neon-purple:#bf00ff;
+    --neon-green:#39ff14; --dark-bg:#020408; --dark-card:#060d14;
+    --dark-panel:#08121e; --text-dim:rgba(255,255,255,0.45);
+    --border:rgba(0,245,255,0.15);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--dark-bg);color:#fff;font-family:'Rajdhani',sans-serif;min-height:100vh}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(57,255,20,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,0.025) 1px,transparent 1px);background-size:60px 60px;z-index:0;pointer-events:none}
+
+  /* ─── LOGIN ─── */
+  #loginScreen{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:var(--dark-bg)}
+  .login-box{position:relative;z-index:1;width:380px;border:1px solid rgba(57,255,20,0.2);background:var(--dark-panel);padding:3rem}
+  .login-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon-green),var(--neon-cyan),var(--neon-purple))}
+  .login-logo{font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:900;letter-spacing:.3em;color:var(--neon-green);text-shadow:0 0 20px var(--neon-green);text-align:center;margin-bottom:.3rem}
+  .login-logo span{color:var(--neon-cyan)}
+  .login-sub{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.3em;color:var(--text-dim);text-transform:uppercase;text-align:center;margin-bottom:2.5rem}
+  .login-field{margin-bottom:1.2rem}
+  .login-field label{display:block;font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--neon-green);text-transform:uppercase;margin-bottom:.4rem}
+  .login-field input{width:100%;padding:.75rem 1rem;background:rgba(0,0,0,0.5);border:1px solid rgba(57,255,20,0.2);color:#fff;font-family:'Rajdhani',sans-serif;font-size:1rem;outline:none;transition:border-color .2s}
+  .login-field input:focus{border-color:var(--neon-green)}
+  .login-btn{width:100%;padding:.85rem;margin-top:.5rem;background:transparent;border:2px solid var(--neon-green);color:var(--neon-green);font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+  .login-btn::before{content:'';position:absolute;inset:0;background:var(--neon-green);transform:translateX(-110%);transition:transform .3s;z-index:-1}
+  .login-btn:hover{color:#000;box-shadow:0 0 30px var(--neon-green)}
+  .login-btn:hover::before{transform:translateX(0)}
+  .login-error{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--neon-pink);text-align:center;margin-top:.8rem;min-height:1.2rem;letter-spacing:.1em}
+
+  /* ─── ADMIN LAYOUT ─── */
+  #adminScreen{display:none;min-height:100vh;position:relative;z-index:1}
+  .admin-header{position:sticky;top:0;z-index:50;padding:1rem 2rem;background:rgba(2,4,8,0.97);border-bottom:1px solid rgba(57,255,20,0.15);display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(10px)}
+  .admin-logo{font-family:'Orbitron',monospace;font-size:.95rem;font-weight:900;letter-spacing:.3em;color:var(--neon-green);text-shadow:0 0 15px var(--neon-green)}
+  .admin-logo span{color:var(--neon-cyan)}
+  .admin-badge{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--neon-green);border:1px solid rgba(57,255,20,0.3);padding:.2rem .6rem;text-transform:uppercase}
+  .admin-user{display:flex;align-items:center;gap:1rem}
+  .admin-email{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--text-dim)}
+  .logout-btn{padding:.4rem 1rem;background:transparent;border:1px solid rgba(255,0,110,0.4);color:rgba(255,0,110,0.7);font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+  .logout-btn:hover{border-color:var(--neon-pink);color:var(--neon-pink)}
+  .back-link{display:flex;align-items:center;gap:.4rem;font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.15em;color:var(--text-dim);text-decoration:none;text-transform:uppercase;transition:color .2s}
+  .back-link:hover{color:var(--neon-cyan)}
+
+  .admin-main{max-width:1100px;margin:0 auto;padding:2.5rem 2rem}
+
+  /* ─── STATS BAR ─── */
+  .stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2.5rem}
+  .stat-card{background:var(--dark-panel);border:1px solid rgba(57,255,20,0.12);padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1rem}
+  .stat-card .icon{font-size:1.8rem}
+  .stat-card .info .num{font-family:'Orbitron',monospace;font-size:1.6rem;font-weight:900;color:var(--neon-green)}
+  .stat-card .info .lbl{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text-dim);letter-spacing:.15em;text-transform:uppercase}
+
+  /* ─── SECTION HEADER ─── */
+  .sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid rgba(57,255,20,0.12)}
+  .sec-title{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:#fff;letter-spacing:.15em}
+  .sec-tag{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--neon-green);letter-spacing:.2em}
+  .btn-add{display:flex;align-items:center;gap:.5rem;padding:.6rem 1.4rem;background:rgba(57,255,20,0.05);border:1px solid var(--neon-green);color:var(--neon-green);font-family:'Orbitron',monospace;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+  .btn-add:hover{background:rgba(57,255,20,0.12);box-shadow:0 0 20px rgba(57,255,20,0.2)}
+
+  /* ─── REVIEWS TABLE ─── */
+  .reviews-table{width:100%;border-collapse:collapse;margin-bottom:3rem}
+  .reviews-table th{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--neon-green);text-transform:uppercase;padding:.7rem 1rem;border-bottom:1px solid rgba(57,255,20,0.12);text-align:left;background:rgba(57,255,20,0.03)}
+  .reviews-table td{padding:.8rem 1rem;border-bottom:1px solid rgba(255,255,255,0.05);font-size:.9rem;vertical-align:middle}
+  .reviews-table tr:hover td{background:rgba(57,255,20,0.02)}
+  .tbl-cover{width:48px;height:48px;object-fit:cover;border:1px solid rgba(57,255,20,0.15)}
+  .tbl-cover-ph{width:48px;height:48px;background:var(--dark-card);border:1px solid rgba(57,255,20,0.15);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+  .tbl-title{font-family:'Orbitron',monospace;font-size:.8rem;font-weight:700}
+  .tbl-artist{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--text-dim)}
+  .tbl-date{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--text-dim)}
+  .tbl-actions{display:flex;gap:.5rem;align-items:center}
+  .btn-edit{padding:.35rem .8rem;background:transparent;border:1px solid rgba(57,255,20,0.3);color:var(--neon-green);font-family:'Share Tech Mono',monospace;font-size:.6rem;cursor:pointer;transition:all .2s}
+  .btn-edit:hover{background:rgba(57,255,20,0.1)}
+  .btn-del{padding:.35rem .8rem;background:transparent;border:1px solid rgba(255,0,110,0.3);color:rgba(255,0,110,0.6);font-family:'Share Tech Mono',monospace;font-size:.6rem;cursor:pointer;transition:all .2s}
+  .btn-del:hover{border-color:var(--neon-pink);color:var(--neon-pink)}
+  .empty-state{text-align:center;padding:3rem;font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--text-dim);letter-spacing:.15em}
+
+  /* ─── TOGGLE SWITCH ─── */
+  .toggle-wrap{display:flex;align-items:center;gap:.5rem}
+  .toggle{position:relative;width:36px;height:20px;cursor:pointer}
+  .toggle input{opacity:0;width:0;height:0}
+  .toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:20px;transition:.3s}
+  .toggle-slider::before{content:'';position:absolute;width:14px;height:14px;left:2px;top:2px;background:#fff;border-radius:50%;transition:.3s}
+  .toggle input:checked+.toggle-slider{background:rgba(57,255,20,0.2);border-color:var(--neon-green)}
+  .toggle input:checked+.toggle-slider::before{transform:translateX(16px);background:var(--neon-green)}
+  .toggle-lbl{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--text-dim)}
+
+  /* ─── MODAL ─── */
+  .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.88);backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
+  .modal-overlay.open{display:flex}
+  .modal-box{position:relative;width:100%;max-width:800px;margin:auto;background:var(--dark-panel);border:1px solid rgba(57,255,20,0.2)}
+  .modal-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon-green),var(--neon-cyan),var(--neon-purple))}
+  .modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 2rem;border-bottom:1px solid rgba(57,255,20,0.12)}
+  .modal-title{font-family:'Orbitron',monospace;font-size:.9rem;font-weight:700;letter-spacing:.15em;color:var(--neon-green)}
+  .modal-close{background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--text-dim);width:32px;height:32px;cursor:pointer;font-size:1rem;transition:all .2s}
+  .modal-close:hover{border-color:var(--neon-pink);color:var(--neon-pink)}
+  .modal-body{padding:2rem}
+
+  /* ─── FORM GRID ─── */
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .form-group{display:flex;flex-direction:column;gap:.4rem}
+  .form-group.full{grid-column:1/-1}
+  .form-label{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--neon-green);text-transform:uppercase}
+  .form-label span{color:var(--neon-pink)}
+  .form-input,.form-select,.form-textarea{width:100%;padding:.7rem 1rem;background:rgba(0,0,0,0.5);border:1px solid rgba(57,255,20,0.2);color:#fff;font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s}
+  .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--neon-green)}
+  .form-select option{background:#060d14}
+  .form-textarea{resize:vertical;min-height:120px;line-height:1.6}
+
+  /* ─── IMAGE UPLOAD ─── */
+  .img-upload-zone{border:2px dashed rgba(57,255,20,0.25);padding:2rem;text-align:center;cursor:pointer;transition:border-color .3s;position:relative;background:rgba(57,255,20,0.02)}
+  .img-upload-zone:hover,.img-upload-zone.dragover{border-color:var(--neon-green);background:rgba(57,255,20,0.05)}
+  .img-upload-zone .upload-icon{font-size:2rem;margin-bottom:.5rem}
+  .img-upload-zone p{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--text-dim);letter-spacing:.1em}
+  .img-upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+  .img-preview-wrap{position:relative;display:inline-block;margin-top:.8rem}
+  .img-preview{width:100px;height:100px;object-fit:cover;border:1px solid rgba(57,255,20,0.3);display:none}
+  .img-remove-btn{position:absolute;top:-6px;right:-6px;width:20px;height:20px;background:var(--neon-pink);border:none;color:#fff;font-size:.7rem;cursor:pointer;line-height:20px;display:none}
+  .upload-progress{height:2px;background:rgba(57,255,20,0.1);margin-top:.5rem;display:none}
+  .upload-progress-bar{height:100%;width:0;background:var(--neon-green);transition:width .3s}
+
+  /* ─── CAPTIONS PANEL ─── */
+  .captions-panel{margin-top:1.5rem;border:1px solid rgba(57,255,20,0.15);background:rgba(57,255,20,0.02)}
+  .captions-header{padding:.8rem 1.2rem;border-bottom:1px solid rgba(57,255,20,0.1);font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;color:var(--neon-green);letter-spacing:.15em}
+  .captions-tabs{display:flex;border-bottom:1px solid rgba(57,255,20,0.1)}
+  .cap-tab{flex:1;padding:.6rem;background:transparent;border:none;color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:.15em;cursor:pointer;transition:all .2s;border-bottom:2px solid transparent}
+  .cap-tab.active{color:var(--neon-green);border-bottom-color:var(--neon-green)}
+  .cap-tab:hover{color:#fff}
+  .cap-tab-icon{margin-right:.3rem}
+  .captions-content{padding:1rem}
+  .cap-panel{display:none}
+  .cap-panel.active{display:block}
+  .cap-textarea{width:100%;min-height:140px;padding:.8rem;background:rgba(0,0,0,0.5);border:1px solid rgba(57,255,20,0.15);color:#fff;font-family:'Rajdhani',sans-serif;font-size:.85rem;line-height:1.6;resize:vertical;outline:none;transition:border-color .2s}
+  .cap-textarea:focus{border-color:var(--neon-green)}
+  .cap-actions{display:flex;gap:.6rem;margin-top:.6rem;flex-wrap:wrap}
+  .btn-copy{padding:.45rem 1.1rem;background:rgba(57,255,20,0.07);border:1px solid rgba(57,255,20,0.3);color:var(--neon-green);font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.12em;cursor:pointer;transition:all .2s;text-transform:uppercase}
+  .btn-copy:hover{background:rgba(57,255,20,0.15);box-shadow:0 0 10px rgba(57,255,20,0.2)}
+  .btn-copy.copied{border-color:var(--neon-cyan);color:var(--neon-cyan);background:rgba(0,245,255,0.08)}
+  .btn-fb-share{padding:.45rem 1.1rem;background:rgba(24,119,242,0.08);border:1px solid rgba(24,119,242,0.35);color:#1877F2;font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.12em;cursor:pointer;transition:all .2s;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem}
+  .btn-fb-share:hover{background:rgba(24,119,242,0.15);box-shadow:0 0 10px rgba(24,119,242,0.2)}
+  .btn-regen{padding:.45rem 1.1rem;background:transparent;border:1px solid rgba(191,0,255,0.3);color:var(--neon-purple);font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.12em;cursor:pointer;transition:all .2s;text-transform:uppercase}
+  .btn-regen:hover{background:rgba(191,0,255,0.08)}
+
+  /* ─── MODAL FOOTER ─── */
+  .modal-footer{padding:1.5rem 2rem;border-top:1px solid rgba(57,255,20,0.12);display:flex;gap:1rem;justify-content:flex-end;align-items:center}
+  .btn-cancel{padding:.65rem 1.5rem;background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:.12em;cursor:pointer;transition:all .2s}
+  .btn-cancel:hover{border-color:#fff;color:#fff}
+  .btn-save{padding:.65rem 2rem;background:rgba(57,255,20,0.08);border:1px solid var(--neon-green);color:var(--neon-green);font-family:'Orbitron',monospace;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+  .btn-save:hover{background:rgba(57,255,20,0.18);box-shadow:0 0 20px rgba(57,255,20,0.25)}
+  .btn-save:disabled{opacity:.5;cursor:not-allowed}
+  .modal-msg{font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:.1em;min-height:1rem}
+  .modal-msg.ok{color:var(--neon-green)}
+  .modal-msg.err{color:var(--neon-pink)}
+
+  /* ─── CONFIRM DELETE MODAL ─── */
+  .confirm-overlay{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center}
+  .confirm-overlay.open{display:flex}
+  .confirm-box{width:380px;background:var(--dark-panel);border:1px solid rgba(255,0,110,0.3);padding:2rem;text-align:center;position:relative}
+  .confirm-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--neon-pink)}
+  .confirm-icon{font-size:2.5rem;margin-bottom:1rem}
+  .confirm-title{font-family:'Orbitron',monospace;font-size:.9rem;font-weight:700;color:var(--neon-pink);margin-bottom:.8rem;letter-spacing:.1em}
+  .confirm-text{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--text-dim);margin-bottom:1.5rem;line-height:1.8;letter-spacing:.05em}
+  .confirm-btns{display:flex;gap:1rem;justify-content:center}
+  .btn-confirm-cancel{padding:.6rem 1.5rem;background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:.65rem;cursor:pointer;transition:all .2s}
+  .btn-confirm-del{padding:.6rem 1.5rem;background:rgba(255,0,110,0.1);border:1px solid var(--neon-pink);color:var(--neon-pink);font-family:'Orbitron',monospace;font-size:.65rem;font-weight:700;cursor:pointer;transition:all .3s}
+  .btn-confirm-del:hover{background:rgba(255,0,110,0.2)}
+
+  /* ─── TOAST ─── */
+  .toast{position:fixed;bottom:2rem;right:2rem;z-index:999;padding:.7rem 1.4rem;background:var(--dark-panel);border:1px solid var(--neon-green);color:var(--neon-green);font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:.12em;transform:translateY(6rem);opacity:0;transition:all .4s;pointer-events:none}
+  .toast.show{transform:translateY(0);opacity:1}
+
+  /* ─── STATUS BADGE ─── */
+  .status-pub{display:inline-flex;align-items:center;gap:.3rem;font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:.2rem .6rem;border:1px solid var(--neon-green);color:var(--neon-green);background:rgba(57,255,20,0.08);letter-spacing:.1em;text-transform:uppercase}
+  .status-draft{display:inline-flex;align-items:center;gap:.3rem;font-family:'Share Tech Mono',monospace;font-size:.6rem;padding:.2rem .6rem;border:1px solid rgba(255,255,255,0.15);color:var(--text-dim);background:transparent;letter-spacing:.1em;text-transform:uppercase}
+
+  @media(max-width:640px){
+    .form-grid{grid-template-columns:1fr}
+    .form-group.full{grid-column:1}
+    .stats-bar{grid-template-columns:1fr}
+    .modal-footer{flex-wrap:wrap}
+  }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN SCREEN ── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">SONAR<span>.</span>COLLECTIVE</div>
+    <div class="login-sub">Admin Panel · Reseñas Musicales</div>
+    <div class="login-field">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="tu@email.com" autocomplete="username"/>
+    </div>
+    <div class="login-field">
+      <label>Contraseña</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Acceder</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- ── ADMIN SCREEN ── -->
+<div id="adminScreen">
+  <header class="admin-header">
+    <div style="display:flex;align-items:center;gap:1.2rem">
+      <div class="admin-logo">SONAR<span>.</span>COLLECTIVE</div>
+      <div class="admin-badge">Reviews Admin</div>
+    </div>
+    <div class="admin-user">
+      <a href="index.html" class="back-link">← Ver Landing</a>
+      <span class="admin-email" id="adminEmail"></span>
+      <button class="logout-btn" onclick="doLogout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <!-- STATS -->
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="icon">📝</div>
+        <div class="info"><div class="num" id="statTotal">—</div><div class="lbl">Total Reviews</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="icon">✅</div>
+        <div class="info"><div class="num" id="statPub">—</div><div class="lbl">Publicadas</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="icon">🕐</div>
+        <div class="info"><div class="num" id="statDraft">—</div><div class="lbl">Borradores</div></div>
+      </div>
+    </div>
+
+    <!-- REVIEWS SECTION -->
+    <div class="sec-header">
+      <div>
+        <div class="sec-tag">// reseñas sonoras</div>
+        <div class="sec-title">Sonar Collective Reviews</div>
+      </div>
+      <button class="btn-add" onclick="openReviewModal()">+ Nueva Reseña</button>
+    </div>
+
+    <table class="reviews-table" id="reviewsTable">
+      <thead>
+        <tr>
+          <th>Portada</th>
+          <th>Canción · Artista</th>
+          <th>Playlist</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="reviewsTbody">
+        <tr><td colspan="6" class="empty-state">Cargando reseñas...</td></tr>
+      </tbody>
+    </table>
+  </main>
+</div>
+
+<!-- ── REVIEW EDITOR MODAL ── -->
+<div class="modal-overlay" id="reviewModalOverlay" onclick="if(event.target===this)closeReviewModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="reviewModalTitle">Nueva Reseña</div>
+      <button class="modal-close" onclick="closeReviewModal()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- IMAGE UPLOAD -->
+      <div class="form-group full" style="margin-bottom:1.2rem">
+        <div class="form-label">Portada del single / álbum</div>
+        <div class="img-upload-zone" id="reviewImgZone"
+             ondragover="event.preventDefault();this.classList.add('dragover')"
+             ondragleave="this.classList.remove('dragover')"
+             ondrop="handleReviewDrop(event)">
+          <input type="file" accept="image/*" id="reviewImgInput" onchange="handleReviewFileSelect(event)">
+          <div class="upload-icon">🎵</div>
+          <p>Arrastra la imagen aquí o haz click para seleccionar</p>
+          <p style="margin-top:.3rem;font-size:.55rem">PNG, JPG, WEBP · Máx 5MB</p>
+        </div>
+        <div class="img-preview-wrap" id="reviewImgPreviewWrap">
+          <img class="img-preview" id="reviewImgPreview" src="" alt="preview">
+          <button class="img-remove-btn" id="reviewImgRemove" onclick="removeReviewImg()">✕</button>
+        </div>
+        <div class="upload-progress" id="reviewUploadProgress">
+          <div class="upload-progress-bar" id="reviewUploadBar"></div>
+        </div>
+      </div>
+
+      <!-- FIELDS GRID -->
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Título de la canción <span>*</span></label>
+          <input class="form-input" id="fSongTitle" type="text" placeholder="Nombre del tema">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Artista <span>*</span></label>
+          <input class="form-input" id="fArtist" type="text" placeholder="Nombre del artista">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Playlist</label>
+          <input class="form-input" id="fPlaylist" type="text" placeholder="Nombre de la playlist">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fecha de reseña</label>
+          <input class="form-input" id="fDate" type="date">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Link de Spotify</label>
+          <input class="form-input" id="fSpotify" type="url" placeholder="https://open.spotify.com/track/...">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Texto de la reseña <span>*</span></label>
+          <textarea class="form-textarea" id="fReviewText" placeholder="Escribe aquí tu reseña musical..." style="min-height:160px" oninput="autoGenerateCaptions()"></textarea>
+        </div>
+        <div class="form-group full" style="flex-direction:row;align-items:center;gap:1rem">
+          <label class="toggle" title="Publicar en landing">
+            <input type="checkbox" id="fPublished">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-lbl">Publicada en landing</span>
+        </div>
+      </div>
+
+      <!-- CAPTIONS PANEL -->
+      <div class="captions-panel">
+        <div class="captions-header">📱 Vista previa para redes sociales</div>
+        <div class="captions-tabs">
+          <button class="cap-tab active" onclick="switchCapTab('ig',this)"><span class="cap-tab-icon">📸</span>Instagram</button>
+          <button class="cap-tab" onclick="switchCapTab('fb',this)"><span class="cap-tab-icon">👥</span>Facebook</button>
+          <button class="cap-tab" onclick="switchCapTab('tt',this)"><span class="cap-tab-icon">🎵</span>TikTok</button>
+        </div>
+        <div class="captions-content">
+          <!-- Instagram -->
+          <div class="cap-panel active" id="capPanel-ig">
+            <textarea class="cap-textarea" id="capIG" placeholder="Llena los campos para generar el caption..."></textarea>
+            <div class="cap-actions">
+              <button class="btn-copy" onclick="copyCaption('ig')">📋 Copiar</button>
+              <button class="btn-regen" onclick="autoGenerateCaptions()">↺ Regenerar</button>
+            </div>
+          </div>
+          <!-- Facebook -->
+          <div class="cap-panel" id="capPanel-fb">
+            <textarea class="cap-textarea" id="capFB" placeholder="Llena los campos para generar el caption..."></textarea>
+            <div class="cap-actions">
+              <button class="btn-copy" onclick="copyCaption('fb')">📋 Copiar</button>
+              <a class="btn-fb-share" id="btnFbShare" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" width="12" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                Compartir en Facebook
+              </a>
+              <button class="btn-regen" onclick="autoGenerateCaptions()">↺ Regenerar</button>
+            </div>
+          </div>
+          <!-- TikTok -->
+          <div class="cap-panel" id="capPanel-tt">
+            <textarea class="cap-textarea" id="capTT" placeholder="Llena los campos para generar el caption..."></textarea>
+            <div class="cap-actions">
+              <button class="btn-copy" onclick="copyCaption('tt')">📋 Copiar</button>
+              <button class="btn-regen" onclick="autoGenerateCaptions()">↺ Regenerar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.modal-body -->
+    <div class="modal-footer">
+      <div class="modal-msg" id="reviewModalMsg"></div>
+      <button class="btn-cancel" onclick="closeReviewModal()">Cancelar</button>
+      <button class="btn-save" id="reviewSaveBtn" onclick="saveReview()">Guardar Reseña</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONFIRM DELETE MODAL ── -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="confirm-icon">⚠️</div>
+    <div class="confirm-title">Eliminar Reseña</div>
+    <div class="confirm-text" id="confirmText">¿Seguro que deseas eliminar esta reseña?<br>Esta acción no se puede deshacer.</div>
+    <div class="confirm-btns">
+      <button class="btn-confirm-cancel" onclick="closeConfirmDelete()">Cancelar</button>
+      <button class="btn-confirm-del" onclick="execDeleteReview()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════
+// SUPABASE CONFIG
+// ══════════════════════════════════════════
+const SUPABASE_URL = 'https://xxtooltbnluhqabexqdo.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4dG9vbHRibmx1aHFhYmV4cWRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMTAxODIsImV4cCI6MjA4OTc4NjE4Mn0.xQtOMe9_FJj8atIy9gfsXEe8W2_T3qZmur0UbKJZUIc';
+const COVER_BUCKET = 'artists';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ── STATE ──
+let _reviews = [];
+let _editId = null;
+let _deleteId = null;
+let _coverFile = null;
+let _coverPath = null;
+let _coverUrl = null;
+
+// ══════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════
+async function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  const errEl = document.getElementById('loginError');
+  errEl.textContent = '';
+  if(!email||!pass){errEl.textContent='Completa todos los campos';return}
+  const{error} = await sb.auth.signInWithPassword({email,password:pass});
+  if(error){errEl.textContent='Credenciales incorrectas';return}
+  showAdmin();
+}
+
+async function checkSession(){
+  const{data:{session}} = await sb.auth.getSession();
+  if(session) showAdmin();
+}
+
+async function showAdmin(){
+  const{data:{user}} = await sb.auth.getUser();
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('adminScreen').style.display='block';
+  document.getElementById('adminEmail').textContent = user?.email||'';
+  loadReviews();
+}
+
+async function doLogout(){
+  await sb.auth.signOut();
+  location.reload();
+}
+
+checkSession();
+
+// ══════════════════════════════════════════
+// LOAD REVIEWS
+// ══════════════════════════════════════════
+async function loadReviews(){
+  const{data,error} = await sb.from('reviews').select('*').order('review_date',{ascending:false});
+  if(error){console.error(error);return}
+  _reviews = data||[];
+  renderReviewTable();
+  updateStats();
+}
+
+function updateStats(){
+  const pub = _reviews.filter(r=>r.published).length;
+  document.getElementById('statTotal').textContent = _reviews.length;
+  document.getElementById('statPub').textContent   = pub;
+  document.getElementById('statDraft').textContent = _reviews.length - pub;
+}
+
+function renderReviewTable(){
+  const tbody = document.getElementById('reviewsTbody');
+  if(!_reviews.length){
+    tbody.innerHTML='<tr><td colspan="6" class="empty-state">No hay reseñas aún. Crea la primera.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = _reviews.map(r=>`
+    <tr>
+      <td>${r.cover_url
+        ?`<img class="tbl-cover" src="${r.cover_url}" alt="${r.song_title}">`
+        :`<div class="tbl-cover-ph">🎵</div>`}</td>
+      <td>
+        <div class="tbl-title">${esc(r.song_title)}</div>
+        <div class="tbl-artist">${esc(r.artist_name)}</div>
+      </td>
+      <td><span style="font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--text-dim)">${esc(r.playlist_name||'—')}</span></td>
+      <td class="tbl-date">${r.review_date||'—'}</td>
+      <td>${r.published
+        ?`<span class="status-pub">● Publicada</span>`
+        :`<span class="status-draft">○ Borrador</span>`}</td>
+      <td>
+        <div class="tbl-actions">
+          <button class="btn-edit" onclick="openReviewModal('${r.id}')">Editar</button>
+          <button class="btn-del" onclick="confirmDeleteReview('${r.id}','${esc(r.song_title)}')">Eliminar</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ══════════════════════════════════════════
+// REVIEW MODAL
+// ══════════════════════════════════════════
+function openReviewModal(id=null){
+  _editId = id;
+  _coverFile = null;
+  _coverPath = null;
+  _coverUrl = null;
+
+  // Reset form
+  document.getElementById('fSongTitle').value = '';
+  document.getElementById('fArtist').value    = '';
+  document.getElementById('fPlaylist').value  = '';
+  document.getElementById('fDate').value      = new Date().toISOString().slice(0,10);
+  document.getElementById('fSpotify').value   = '';
+  document.getElementById('fReviewText').value= '';
+  document.getElementById('fPublished').checked = false;
+  document.getElementById('capIG').value      = '';
+  document.getElementById('capFB').value      = '';
+  document.getElementById('capTT').value      = '';
+  document.getElementById('reviewModalMsg').textContent = '';
+  document.getElementById('reviewSaveBtn').disabled = false;
+  resetImgPreview();
+
+  // Active first tab
+  switchCapTab('ig', document.querySelector('.cap-tab'));
+
+  if(id){
+    const r = _reviews.find(x=>x.id===id);
+    if(!r) return;
+    document.getElementById('reviewModalTitle').textContent = 'Editar Reseña';
+    document.getElementById('fSongTitle').value = r.song_title||'';
+    document.getElementById('fArtist').value    = r.artist_name||'';
+    document.getElementById('fPlaylist').value  = r.playlist_name||'';
+    document.getElementById('fDate').value      = r.review_date||'';
+    document.getElementById('fSpotify').value   = r.spotify_url||'';
+    document.getElementById('fReviewText').value= r.review_text||'';
+    document.getElementById('fPublished').checked = r.published||false;
+    document.getElementById('capIG').value      = r.ig_caption||'';
+    document.getElementById('capFB').value      = r.fb_caption||'';
+    document.getElementById('capTT').value      = r.tt_caption||'';
+    _coverUrl  = r.cover_url||null;
+    _coverPath = r.cover_path||null;
+    if(_coverUrl){
+      document.getElementById('reviewImgPreview').src = _coverUrl;
+      document.getElementById('reviewImgPreview').style.display='block';
+      document.getElementById('reviewImgRemove').style.display='block';
+    }
+    updateFbShareLink();
+  } else {
+    document.getElementById('reviewModalTitle').textContent = 'Nueva Reseña';
+  }
+
+  document.getElementById('reviewModalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeReviewModal(){
+  document.getElementById('reviewModalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ══════════════════════════════════════════
+// IMAGE UPLOAD
+// ══════════════════════════════════════════
+function handleReviewDrop(e){
+  e.preventDefault();
+  document.getElementById('reviewImgZone').classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if(file && file.type.startsWith('image/')) setReviewImage(file);
+}
+
+function handleReviewFileSelect(e){
+  const file = e.target.files[0];
+  if(file) setReviewImage(file);
+}
+
+function setReviewImage(file){
+  if(file.size > 5*1024*1024){showToast('La imagen supera 5MB','err');return}
+  _coverFile = file;
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    document.getElementById('reviewImgPreview').src = ev.target.result;
+    document.getElementById('reviewImgPreview').style.display='block';
+    document.getElementById('reviewImgRemove').style.display='block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeReviewImg(){
+  _coverFile = null;
+  _coverUrl  = null;
+  _coverPath = null;
+  resetImgPreview();
+}
+
+function resetImgPreview(){
+  document.getElementById('reviewImgPreview').src='';
+  document.getElementById('reviewImgPreview').style.display='none';
+  document.getElementById('reviewImgRemove').style.display='none';
+  document.getElementById('reviewImgInput').value='';
+  document.getElementById('reviewUploadProgress').style.display='none';
+  document.getElementById('reviewUploadBar').style.width='0';
+}
+
+async function uploadReviewCover(){
+  if(!_coverFile) return {url:_coverUrl, path:_coverPath};
+  const ext  = _coverFile.name.split('.').pop();
+  const path = `reviews/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  document.getElementById('reviewUploadProgress').style.display='block';
+  document.getElementById('reviewUploadBar').style.width='40%';
+
+  const{error} = await sb.storage.from(COVER_BUCKET).upload(path, _coverFile, {upsert:false});
+  if(error){showToast('Error al subir imagen','err');return{url:null,path:null}}
+
+  document.getElementById('reviewUploadBar').style.width='100%';
+  const{data:{publicUrl}} = sb.storage.from(COVER_BUCKET).getPublicUrl(path);
+  return {url:publicUrl, path};
+}
+
+// ══════════════════════════════════════════
+// CAPTIONS GENERATOR
+// ══════════════════════════════════════════
+function normalizeHashtag(str){
+  return (str||'').replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ]/g,'').replace(/\s+/g,'');
+}
+
+function generateCaptions(data){
+  const {song_title:song, artist_name:artist, playlist_name:playlist, spotify_url:spotify, review_text:review} = data;
+  const artistTag = normalizeHashtag(artist);
+  const reviewShort = (review||'').substring(0,150).trim() + ((review||'').length>150?'...':'');
+
+  const ig = `🎵 ${song||'[Canción]'} — ${artist||'[Artista]'}
+
+${review||''}
+
+📋 Incluida en: ${playlist||'nuestra playlist'}
+🔗 Escúchala en Spotify (link en bio)
+
+#SonarCollective #${artistTag} #NuevaMusica #Playlist #IndieMusic #Musica`;
+
+  const fb = `🎶 Nueva reseña en Sonar Collective 🎶
+
+${song||'[Canción]'} de ${artist||'[Artista]'}
+
+${review||''}
+
+${playlist?`Esta canción forma parte de nuestra playlist "${playlist}".`:''}
+${spotify?`¡Escúchala aquí! → ${spotify}`:''}
+
+#SonarCollective #Musica #Recomendacion`;
+
+  const tt = `${song||'[Canción]'} - ${artist||'[Artista]'} 🔥
+
+${reviewShort}
+
+¡En nuestra playlist! #SonarCollective #${artistTag} #FYP #Musica #NuevaMusica #Playlist`;
+
+  return {ig, fb, tt};
+}
+
+function autoGenerateCaptions(){
+  const data = {
+    song_title:   document.getElementById('fSongTitle').value.trim(),
+    artist_name:  document.getElementById('fArtist').value.trim(),
+    playlist_name:document.getElementById('fPlaylist').value.trim(),
+    spotify_url:  document.getElementById('fSpotify').value.trim(),
+    review_text:  document.getElementById('fReviewText').value.trim()
+  };
+  const caps = generateCaptions(data);
+  document.getElementById('capIG').value = caps.ig;
+  document.getElementById('capFB').value = caps.fb;
+  document.getElementById('capTT').value = caps.tt;
+  updateFbShareLink();
+}
+
+function updateFbShareLink(){
+  const spotify = document.getElementById('fSpotify').value.trim() || _coverUrl || '';
+  const encoded = encodeURIComponent(spotify);
+  document.getElementById('btnFbShare').href =
+    `https://www.facebook.com/sharer/sharer.php?u=${encoded}`;
+}
+
+// ── TAB SWITCHING ──
+function switchCapTab(platform, btn){
+  document.querySelectorAll('.cap-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.cap-panel').forEach(p=>p.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById('capPanel-'+platform).classList.add('active');
+}
+
+// ── COPY CAPTION ──
+async function copyCaption(platform){
+  const id = {ig:'capIG',fb:'capFB',tt:'capTT'}[platform];
+  const text = document.getElementById(id).value;
+  if(!text) return;
+  try{
+    await navigator.clipboard.writeText(text);
+    const btn = event.target;
+    btn.textContent = '✓ ¡Copiado!';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='📋 Copiar';btn.classList.remove('copied')},2000);
+  }catch(e){showToast('No se pudo copiar','err')}
+}
+
+// ══════════════════════════════════════════
+// SAVE REVIEW
+// ══════════════════════════════════════════
+async function saveReview(){
+  const song   = document.getElementById('fSongTitle').value.trim();
+  const artist = document.getElementById('fArtist').value.trim();
+  const review = document.getElementById('fReviewText').value.trim();
+  const msgEl  = document.getElementById('reviewModalMsg');
+  const saveBtn= document.getElementById('reviewSaveBtn');
+
+  if(!song||!artist||!review){
+    msgEl.className='modal-msg err';
+    msgEl.textContent='Canción, artista y reseña son obligatorios';
+    return;
+  }
+
+  saveBtn.disabled=true;
+  msgEl.className='modal-msg';
+  msgEl.textContent='Guardando...';
+
+  // Upload image if new
+  const{url:coverUrl, path:coverPath} = await uploadReviewCover();
+
+  // Auto-generate captions if empty
+  autoGenerateCaptions();
+
+  const payload = {
+    song_title:   song,
+    artist_name:  artist,
+    playlist_name:document.getElementById('fPlaylist').value.trim()||null,
+    spotify_url:  document.getElementById('fSpotify').value.trim()||null,
+    review_date:  document.getElementById('fDate').value||new Date().toISOString().slice(0,10),
+    review_text:  review,
+    published:    document.getElementById('fPublished').checked,
+    ig_caption:   document.getElementById('capIG').value||null,
+    fb_caption:   document.getElementById('capFB').value||null,
+    tt_caption:   document.getElementById('capTT').value||null,
+    cover_url:    coverUrl  || ((_editId && _coverUrl)?_coverUrl:null),
+    cover_path:   coverPath || ((_editId && _coverPath)?_coverPath:null),
+  };
+
+  let error;
+  if(_editId){
+    ({error} = await sb.from('reviews').update(payload).eq('id',_editId));
+  } else {
+    ({error} = await sb.from('reviews').insert(payload));
+  }
+
+  if(error){
+    msgEl.className='modal-msg err';
+    msgEl.textContent='Error: '+error.message;
+    saveBtn.disabled=false;
+    return;
+  }
+
+  showToast(_editId?'Reseña actualizada ✓':'Reseña creada ✓');
+  closeReviewModal();
+  loadReviews();
+}
+
+// ══════════════════════════════════════════
+// DELETE
+// ══════════════════════════════════════════
+function confirmDeleteReview(id, title){
+  _deleteId = id;
+  document.getElementById('confirmText').innerHTML =
+    `¿Seguro que deseas eliminar la reseña de <strong>"${esc(title)}"</strong>?<br>Esta acción no se puede deshacer.`;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+
+function closeConfirmDelete(){
+  _deleteId = null;
+  document.getElementById('confirmOverlay').classList.remove('open');
+}
+
+async function execDeleteReview(){
+  if(!_deleteId) return;
+  // Delete cover from storage if exists
+  const rev = _reviews.find(r=>r.id===_deleteId);
+  if(rev?.cover_path){
+    await sb.storage.from(COVER_BUCKET).remove([rev.cover_path]);
+  }
+  const{error} = await sb.from('reviews').delete().eq('id',_deleteId);
+  if(error){showToast('Error al eliminar','err');return}
+  showToast('Reseña eliminada');
+  closeConfirmDelete();
+  loadReviews();
+}
+
+// ══════════════════════════════════════════
+// UTILITIES
+// ══════════════════════════════════════════
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+function showToast(msg, type='ok'){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = type==='err'?'var(--neon-pink)':'var(--neon-green)';
+  t.style.color       = type==='err'?'var(--neon-pink)':'var(--neon-green)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// Auto-generate captions when key fields change
+['fSongTitle','fArtist','fPlaylist','fSpotify'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', autoGenerateCaptions);
+});
+document.getElementById('fSpotify').addEventListener('input', updateFbShareLink);
+</script>
+</body>
+</html>
